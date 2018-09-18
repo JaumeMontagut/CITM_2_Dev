@@ -94,7 +94,7 @@ public:
 	}
 
 	float distance_to(vec3 &otherVec) const {
-		return sqrt(pow(otherVec.x - x) + pow(otherVec.y - y) + pow(otherVec.z - z));
+		return sqrt( pow(otherVec.x - x, 2) + pow(otherVec.y - y, 2) + pow(otherVec.z - z, 2));
 	}
 
 	//ADDITIONAL METHODS
