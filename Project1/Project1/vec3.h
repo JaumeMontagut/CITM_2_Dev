@@ -68,10 +68,7 @@ public:
 	}
 
 	bool operator== (vec3 &otherVec) const {
-		if (x == otherVec.x && y == otherVec.y && z == otherVec.z) {
-			return true;
-		}
-		return false;
+		return (x == otherVec.x && y == otherVec.y && z == otherVec.z);
 	}
 
 #pragma endregion
@@ -80,7 +77,7 @@ public:
 
 	void normalize() {
 		float module;
-		module = mathf.sqrt(mathf.pow(x, 2) + mathf.pow(y, 2) + mathf.pow(z, 2));
+		module = sqrt( pow(x, 2) + pow(y, 2) + pow(z, 2) );
 		x = x / module;
 		y = y / module;
 		z = z / module;
