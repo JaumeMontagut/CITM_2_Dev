@@ -61,7 +61,7 @@ public:
 		z = z - otherVec.z;
 	}
 
-	void operator= (vec3 &otherVec) {
+	void operator= (vec3 otherVec) {
 		x = otherVec.x;
 		y = otherVec.y;
 		z = otherVec.z;
@@ -90,14 +90,11 @@ public:
 	}
 
 	bool is_zero() const {
-		if (x == 0 && y == 0 && z == 0) {
-			return true;
-		}
-		return false;
+		return (x == 0 && y == 0 && z == 0);
 	}
 
 	float distance_to(vec3 &otherVec) const {
-		return mathf.sqrt(mathf.pow(otherVec.x - x) + mathf.pow(otherVec.y - y) + mathf.pow(otherVec.z - z));
+		return sqrt(pow(otherVec.x - x) + pow(otherVec.y - y) + pow(otherVec.z - z));
 	}
 
 	//ADDITIONAL METHODS
