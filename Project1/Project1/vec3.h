@@ -31,42 +31,37 @@ public:
 
 #pragma region Operators
 
-	vec3<type> operator+ (vec3 &otherVec) {
-		vec3 returnVec;
-		returnVec.x = x + otherVec.x;
-		returnVec.y = y + otherVec.y;
-		returnVec.z = z + otherVec.z;
-		return returnVec;
+	vec3 operator+ (const vec3 &sentVec) const {
+		return vec3(x + sentVec.x, y + sentVec.y, z + sentVec.z);
 	}
 
-	vec3<type> operator- (vec3 &otherVec) {
-		vec3 returnVec;
-		returnVec.x = x - otherVec.x;
-		returnVec.y = y - otherVec.y;
-		returnVec.z = z - otherVec.z;
-		return returnVec;
+	vec3 operator- (const vec3 &sentVec) const {
+		return vec3(x - sentVec.x, y - sentVec.y, z - sentVec.z);
 	}
 
-	void operator+= (vec3 &otherVec) {
-		x = x + otherVec.x;
-		y = y + otherVec.y;
-		z = z + otherVec.z;
+	vec3 operator+= (const vec3 &sentVec) {
+		x += sentVec.x;
+		y += sentVec.y;
+		z += sentVec.z;
+		return *this;
 	}
 
-	void operator-= (vec3 &otherVec) {
-		x = x - otherVec.x;
-		y = y - otherVec.y;
-		z = z - otherVec.z;
+	vec3 operator-= (const vec3 &otherVec) {
+		x -= otherVec.x;
+		y -= otherVec.y;
+		z -= otherVec.z;
+		return *this;
 	}
 
-	void operator= (vec3 otherVec) {
-		x = otherVec.x;
-		y = otherVec.y;
-		z = otherVec.z;
+	vec3 operator= (vec3 sentVec) {
+		x = sentVec.x;
+		y = sentVec.y;
+		z = sentVec.z;
+		return *this;
 	}
 
-	bool operator== (vec3 &otherVec) const {
-		return (x == otherVec.x && y == otherVec.y && z == otherVec.z);
+	bool operator== (const vec3 &sentVec) const {
+		return (x == sentVec.x && y == sentVec.y && z == sentVec.z);
 	}
 
 #pragma endregion

@@ -5,8 +5,10 @@
 int main()
 {
 	vec3<float> vecA(1,1,1);
-	vec3<float> vecB(2,2,2);
-	vec3<float> vecC(vecA, vecB);
+	vec3<float> vecB;
+	vec3<float> vecC;
+
+	vecC = vecB = vecA;
 
 	vecC.printCoordinates();
 
