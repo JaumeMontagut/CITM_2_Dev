@@ -1,39 +1,37 @@
 #ifndef VEC_3
 #define VEC_3
 
-template <class unit>
+template <class type>
 class vec3
 {
 public:
-	unit x, y, z;
-
-public:
+	type x, y, z;
 
 #pragma region Constructors
 
-	vec3() {
-		x = 0;
-		y = 0;
-		z = 0;
-	}
+	vec3()
+	{}
 
-	vec3(unit x, unit y, unit z) {
-		this->x = x;
-		this->y = y;
-		this->z = z;
-	}
+	vec3(const type &x, const type &y, const type &z) :
+		x(x),
+		y(y),
+		z(z){}
 
-	vec3(vec3 &startPoint, vec3 &endPoint) {
-		x = endPoint.x - startPoint.x;
-		y = endPoint.y - startPoint.y;
-		z = endPoint.z - startPoint.z;
-	}
+	vec3(const vec3 &vecToCpy) :
+		x(vecToCpy.x),
+		y(vecToCpy.y),
+		z(vecToCpy.z){}
+
+	vec3(const vec3 &startPoint, const vec3 &endPoint) :
+		x(endPoint.x - startPoint.x),
+		y(endPoint.y - startPoint.x),
+		z(endPoint.z - startPoint.z) {}
 
 #pragma endregion
 
 #pragma region Operators
 
-	vec3<unit> operator+ (vec3 &otherVec) {
+	vec3<type> operator+ (vec3 &otherVec) {
 		vec3 returnVec;
 		returnVec.x = x + otherVec.x;
 		returnVec.y = y + otherVec.y;
@@ -41,7 +39,7 @@ public:
 		return returnVec;
 	}
 
-	vec3<unit> operator- (vec3 &otherVec) {
+	vec3<type> operator- (vec3 &otherVec) {
 		vec3 returnVec;
 		returnVec.x = x - otherVec.x;
 		returnVec.y = y - otherVec.y;

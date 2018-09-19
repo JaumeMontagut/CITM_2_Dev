@@ -4,5 +4,11 @@
 
 int main()
 {
+	vec3<float> vecA(1,1,1);
+	vec3<float> vecB(2,2,2);
+	vec3<float> vecC(vecA, vecB);
 
+	vecC.printCoordinates();
+
+	system("pause");
 }
