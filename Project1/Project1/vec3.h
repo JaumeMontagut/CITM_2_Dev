@@ -64,33 +64,41 @@ public:
 		return (x == sentVec.x && y == sentVec.y && z == sentVec.z);
 	}
 
+	//Extra operators
+
+	vec3 operator/ (const type &sentNum) const
+	{
+		return vec3(x/sentNum, y/sentNum, z/sentNum);
+	}
+
 #pragma endregion
 
 #pragma region Methods
 
+	//INFO:
+	//- Casting x, y and z to type hides a warning if we used any type other than doubles
+	//- A better way to do it would be to use template specializations
+
 	void normalize() {
-		float module;
-		module = sqrt( pow(x, 2) + pow(y, 2) + pow(z, 2) );
-		x = x / module;
-		y = y / module;
-		z = z / module;
+		*this = *this / (type) sqrt(x*x + y*y + z*z);
 	}
 
 	void zero() {
-		x = 0;
-		y = 0;
-		z = 0;
+		x = (type)0;
+		y = (type)0;
+		z = (type)0;
 	}
 
 	bool is_zero() const {
 		return (x == 0 && y == 0 && z == 0);
 	}
 
-	float distance_to(vec3 &otherVec) const {
-		return sqrt( pow(otherVec.x - x, 2) + pow(otherVec.y - y, 2) + pow(otherVec.z - z, 2));
+	float distance_to(vec3 &sentVec) const {
+		return (type) sqrt((sentVec.x - x)*(sentVec.x - x) + (sentVec.y - y) * (sentVec.y - y) + (sentVec.z - z) * (sentVec.z - z));
 	}
 
-	//ADDITIONAL METHODS
+	//Additional methods
+
 	void printCoordinates() {
 		std::cout << "x: " << x << ", y: " << y << ", z: " << z << "\n";
 	}
