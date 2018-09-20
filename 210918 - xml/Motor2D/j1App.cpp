@@ -8,7 +8,6 @@
 #include "j1Audio.h"
 #include "j1Scene.h"
 #include "j1App.h"
-#include <iostream>
 
 // Constructor
 j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
@@ -61,17 +60,18 @@ bool j1App::Awake()
 	// TODO 3: Load config.xml file using load_file() method from the xml_document class.
 	// If everything goes well, load the top tag inside the xml_node property
 	// created in the last TODO
-	pugi::xml_parse_result result = doc.load_file("config.xml");
+	pugi::xml_parse_result result = doc.load_file("../config.xml");
 
 	if (result) {
-		std::cout << "File loaded without errors";
+		LOG("File loaded without errors");
 
-		node = doc.child("name");
-		//node = doc.first_child;
+		//INFO: Both work
+		rootNode = doc.child("config");
+		//rootNode = doc.document_element();
 	}
 	else {
-		std::cout << "Error when loading xml document";
-		//std::cout << "Error description: " << result.description;
+		LOG("Error when loading xml document");
+		//LOG("Error description: " << result.description);
 	}
 
 

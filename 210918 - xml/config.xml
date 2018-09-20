@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Config file for the game -->
 <config>
-  <name> XML Test Game </name>
+  <name nameAtt="TestGame">TestGame</name>
 </config>
