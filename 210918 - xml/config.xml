@@ -1,5 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Config file for the game -->
 <config>
-  <name nameAtt="TestGame">TestGame</name>
+  
+  <audio></audio>
+
+  <input></input>
+
+  <renderer>
+    <vsync value="false"/>
+  </renderer>
+
+  <textures></textures>
+
+  <window>
+    <fullscreen value = "false"/>
+    <borderless value = "false"/>
+    <resizable value = "true"/>
+    <fullscreen_window value = "false"/>
+    <name>Bst Gmae Evrr</name>
+    <width value = "false"/>
+    <height value = "false"/>
+    <scale value ="1"/>
+  </window>
+  
 </config>

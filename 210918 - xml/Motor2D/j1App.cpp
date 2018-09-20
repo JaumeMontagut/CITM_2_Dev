@@ -74,7 +74,6 @@ bool j1App::Awake()
 		//LOG("Error description: " << result.description);
 	}
 
-
 	bool ret = true;
 
 	p2List_item<j1Module*>* item;
@@ -85,8 +84,18 @@ bool j1App::Awake()
 		// TODO 6: Add a new argument to the Awake method to receive a pointer to a xml node.
 		// If the section with the module name exist in config.xml, fill the pointer with the address of a valid xml_node
 		// that can be used to read all variables from that section. Send nullptr if the section does not exist in config.xml
+		
+		pugi::xml_node* iteratorNode;
+		iteratorNode = &App->rootNode.child(item->data->name.GetString());
 
-		ret = item->data->Awake();
+		if (iteratorNode->empty()) {
+			LOG("XML file config for module ", item->data->name, " has not been created");
+			ret = item->data->Awake();//Will send nullptr if no argument is sent
+		}
+		else{
+			ret = item->data->Awake(iteratorNode);
+		}
+
 		item = item->next;
 	}
 
