@@ -53,7 +53,7 @@ public:
 		return *this;
 	}
 
-	vec3 operator= (vec3 otherVec) {
+	vec3 operator= (const vec3 &otherVec) {
 		x = otherVec.x;
 		y = otherVec.y;
 		z = otherVec.z;
@@ -94,7 +94,7 @@ public:
 		return (x == (_type)0 && y == (_type)0 && z == (_type)0);
 	}
 
-	_type distance_to(vec3 &otherVec) const {
+	_type distance_to(const vec3 &otherVec) const {
 		return (_type) sqrt((otherVec.x - x)*(otherVec.x - x) + (otherVec.y - y) * (otherVec.y - y) + (otherVec.z - z) * (otherVec.z - z));
 	}
 
