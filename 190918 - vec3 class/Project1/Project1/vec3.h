@@ -78,7 +78,10 @@ public:
 	//- A better way to do it would be to use template specializations
 
 	void normalize() {
-		*this = *this / (_type) sqrt(x*x + y*y + z*z);
+		float vecModule = sqrt(x*x + y * y + z * z);
+		x /= vecModule;
+		y /= vecModule;
+		z /= vecModule;
 	}
 
 	void zero() {
@@ -91,8 +94,8 @@ public:
 		return (x == (_type)0 && y == (_type)0 && z == (_type)0);
 	}
 
-	_type distance_to(vec3 &sentVec) const {
-		return (_type) sqrt((sentVec.x - x)*(sentVec.x - x) + (sentVec.y - y) * (sentVec.y - y) + (sentVec.z - z) * (sentVec.z - z));
+	_type distance_to(vec3 &otherVec) const {
+		return (_type) sqrt((otherVec.x - x)*(otherVec.x - x) + (otherVec.y - y) * (otherVec.y - y) + (otherVec.z - z) * (otherVec.z - z));
 	}
 
 };
