@@ -93,12 +93,6 @@ public:
 		return (type) sqrt((sentVec.x - x)*(sentVec.x - x) + (sentVec.y - y) * (sentVec.y - y) + (sentVec.z - z) * (sentVec.z - z));
 	}
 
-	//- Additional methods
-
-	void printCoordinates() {
-		std::cout << "x: " << x << ", y: " << y << ", z: " << z << "\n";
-	}
-
 };
 
 #endif
