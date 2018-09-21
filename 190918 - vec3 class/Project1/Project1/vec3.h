@@ -86,7 +86,7 @@ public:
 	}
 
 	bool is_zero() const {
-		return (x == 0 && y == 0 && z == 0);
+		return (x == (type)0 && y == (type)0 && z == (type)0);
 	}
 
 	float distance_to(vec3 &sentVec) const {
