@@ -3,18 +3,18 @@
 
 #include <math.h>
 
-template <class type>
+template <class _type>
 class vec3
 {
 public:
-	type x, y, z;
+	_type x, y, z;
 
 	//CONSTRUCTORS---------------------------------------------------------
 
 	vec3()
 	{}
 
-	vec3(const type &x, const type &y, const type &z) :
+	vec3(const _type &x, const _type &y, const _type &z) :
 		x(x),
 		y(y),
 		z(z){}
@@ -66,7 +66,7 @@ public:
 
 	//- Extra operators
 
-	vec3 operator/ (const type &sentNum) const
+	vec3 operator/ (const _type &sentNum) const
 	{
 		return vec3(x/sentNum, y/sentNum, z/sentNum);
 	}
@@ -78,21 +78,21 @@ public:
 	//- A better way to do it would be to use template specializations
 
 	void normalize() {
-		*this = *this / (type) sqrt(x*x + y*y + z*z);
+		*this = *this / (_type) sqrt(x*x + y*y + z*z);
 	}
 
 	void zero() {
-		x = (type)0;
-		y = (type)0;
-		z = (type)0;
+		x = (_type)0;
+		y = (_type)0;
+		z = (_type)0;
 	}
 
 	bool is_zero() const {
-		return (x == (type)0 && y == (type)0 && z == (type)0);
+		return (x == (_type)0 && y == (_type)0 && z == (_type)0);
 	}
 
-	type distance_to(vec3 &sentVec) const {
-		return (type) sqrt((sentVec.x - x)*(sentVec.x - x) + (sentVec.y - y) * (sentVec.y - y) + (sentVec.z - z) * (sentVec.z - z));
+	_type distance_to(vec3 &sentVec) const {
+		return (_type) sqrt((sentVec.x - x)*(sentVec.x - x) + (sentVec.y - y) * (sentVec.y - y) + (sentVec.z - z) * (sentVec.z - z));
 	}
 
 };
