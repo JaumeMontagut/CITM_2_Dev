@@ -21,24 +21,26 @@ public:
 
 	//OPERATORS-----------------------
 
-	bool operator== (string otherString){
-		return(text == otherString.text);
-	}
-
-	string operator= (string otherString) {
+	string operator= (const string &otherString) {
 		text = otherString.text;
 		return *this;
 	}
 
 	string operator= (const char* otherText) {
-		this->text = (char*)otherText;
+		text = (char*)otherText;
 		return *this;
 	}
 
-	//Try for in every letter if this doesn't work
+	bool operator== (const string &otherString) {
+		return(text == otherString.text);
+	}
+
+	bool operator== (const char* otherText) {
+		return(text == (char*)otherText);
+	}
 
 	//METHODS-------------------------
-
+	//(section to add methods)
 };
 
 #endif
