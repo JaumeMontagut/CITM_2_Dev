@@ -78,7 +78,7 @@ public:
 	//- A better way to do it would be to use template specializations
 
 	void normalize() {
-		float vecModule = sqrt(x*x + y * y + z * z);
+		_type vecModule = (_type)sqrt(x * x + y * y + z * z);
 		x /= vecModule;
 		y /= vecModule;
 		z /= vecModule;
