@@ -98,6 +98,10 @@ public:
 		return (_type) sqrt((otherVec.x - x)*(otherVec.x - x) + (otherVec.y - y) * (otherVec.y - y) + (otherVec.z - z) * (otherVec.z - z));
 	}
 
+	_type distance_to_squared(const vec3 &otherVec) const {
+		return (_type)(otherVec.x - x) * (otherVec.x - x) + (otherVec.y - y) * (otherVec.y - y) + (otherVec.z - z) * (otherVec.z - z);
+	}
+
 };
 
 #endif
