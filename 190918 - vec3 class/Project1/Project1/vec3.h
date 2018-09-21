@@ -7,7 +7,7 @@ class vec3
 public:
 	type x, y, z;
 
-#pragma region Constructors
+	//CONSTRUCTORS---------------------------------------------------------
 
 	vec3()
 	{}
@@ -27,22 +27,20 @@ public:
 		y(endPoint.y - startPoint.x),
 		z(endPoint.z - startPoint.z) {}
 
-#pragma endregion
+	//OPERATORS-----------------------------------------------------------
 
-#pragma region Operators
-
-	vec3 operator+ (const vec3 &sentVec) const {
-		return vec3(x + sentVec.x, y + sentVec.y, z + sentVec.z);
+	vec3 operator+ (const vec3 &otherVec) const {
+		return vec3(x + otherVec.x, y + otherVec.y, z + otherVec.z);
 	}
 
-	vec3 operator- (const vec3 &sentVec) const {
-		return vec3(x - sentVec.x, y - sentVec.y, z - sentVec.z);
+	vec3 operator- (const vec3 &otherVec) const {
+		return vec3(x - otherVec.x, y - otherVec.y, z - otherVec.z);
 	}
 
-	vec3 operator+= (const vec3 &sentVec) {
-		x += sentVec.x;
-		y += sentVec.y;
-		z += sentVec.z;
+	vec3 operator+= (const vec3 &otherVec) {
+		x += otherVec.x;
+		y += otherVec.y;
+		z += otherVec.z;
 		return *this;
 	}
 
@@ -53,27 +51,25 @@ public:
 		return *this;
 	}
 
-	vec3 operator= (vec3 sentVec) {
-		x = sentVec.x;
-		y = sentVec.y;
-		z = sentVec.z;
+	vec3 operator= (vec3 otherVec) {
+		x = otherVec.x;
+		y = otherVec.y;
+		z = otherVec.z;
 		return *this;
 	}
 
-	bool operator== (const vec3 &sentVec) const {
-		return (x == sentVec.x && y == sentVec.y && z == sentVec.z);
+	bool operator== (const vec3 &otherVec) const {
+		return (x == otherVec.x && y == otherVec.y && z == otherVec.z);
 	}
 
-	//Extra operators
+	//- Extra operators
 
 	vec3 operator/ (const type &sentNum) const
 	{
 		return vec3(x/sentNum, y/sentNum, z/sentNum);
 	}
 
-#pragma endregion
-
-#pragma region Methods
+	//METHODS----------------------------------------------------------------------------------
 
 	//INFO:
 	//- Casting x, y and z to type hides a warning if we used any type other than doubles
@@ -97,13 +93,11 @@ public:
 		return (type) sqrt((sentVec.x - x)*(sentVec.x - x) + (sentVec.y - y) * (sentVec.y - y) + (sentVec.z - z) * (sentVec.z - z));
 	}
 
-	//Additional methods
+	//- Additional methods
 
 	void printCoordinates() {
 		std::cout << "x: " << x << ", y: " << y << ", z: " << z << "\n";
 	}
-
-#pragma endregion
 
 };
 
