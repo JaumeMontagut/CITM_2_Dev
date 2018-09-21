@@ -91,7 +91,7 @@ public:
 		return (x == (type)0 && y == (type)0 && z == (type)0);
 	}
 
-	float distance_to(vec3 &sentVec) const {
+	type distance_to(vec3 &sentVec) const {
 		return (type) sqrt((sentVec.x - x)*(sentVec.x - x) + (sentVec.y - y) * (sentVec.y - y) + (sentVec.z - z) * (sentVec.z - z));
 	}
 
