@@ -1,6 +1,8 @@
 #ifndef VEC_3
 #define VEC_3
 
+#include <math.h>
+
 template <class type>
 class vec3
 {
