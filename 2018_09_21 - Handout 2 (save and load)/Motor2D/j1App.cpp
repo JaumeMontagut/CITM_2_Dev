@@ -279,6 +279,7 @@ const char* j1App::GetOrganization() const
 
 bool j1App::LoadState() {
 	pugi::xml_parse_result result = save_file.load_file("savegame.xml");
+	save_root = save_file.child("save");
 
 	if(result){
 		p2List_item<j1Module*>* item = modules.start;
