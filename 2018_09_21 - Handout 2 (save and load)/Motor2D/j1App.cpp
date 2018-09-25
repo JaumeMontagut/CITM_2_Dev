@@ -152,7 +152,19 @@ void j1App::PrepareUpdate()
 void j1App::FinishUpdate()
 {
 	// TODO 1: This is a good place to call load / Save functions
+	if(requestSave) {
+		for (int i = 0; i < modules.count; i++) {
+			App->modules[i]->Save();
+		}
+		requestSave = false;
+	}
 
+	if (requestLoad) {
+		for (int i = 0; i < modules.count; i++) {
+			App->modules[i]->Load(save_root.child(modules[i]->name.GetString()));
+		}
+		requestLoad = false;
+	}
 }
 
 // Call modules before each loop iteration
@@ -268,6 +280,24 @@ const char* j1App::GetOrganization() const
 
 // TODO 5: Create a method to actually load an xml file
 // then call all the modules to load themselves
+bool j1App::Load() {
+	pugi::xml_parse_result result = save_file.load_file("savegame.xml");
+
+	if(result){
+		p2List_item<j1Module*>* item = modules.start;
+		while (item != NULL)
+		{
+			if (!item->data->Load(save_root.child(item->data->name.GetString()))) {
+				LOG("Module not loaded correctly");
+			}
+			item = item->next;
+		}
+	}
+	else {
+		LOG("Couldn't load file correctly.");
+	}
+
+}
 
 // TODO 7: Create a method to save the current state
 

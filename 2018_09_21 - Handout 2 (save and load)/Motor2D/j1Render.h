@@ -28,6 +28,10 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
+	//Save and Load
+	bool Load(pugi::xml_node& node);
+	bool Save();
+
 	// Blit
 	void SetViewPort(const SDL_Rect& rect);
 	void ResetViewPort();

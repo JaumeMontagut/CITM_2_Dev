@@ -48,6 +48,8 @@ public:
 	// that can be called anytime, even if they 
 	// will one execute by the very end of the frame
 	// Load / Save
+	bool Save();
+	bool Load();
 
 private:
 
@@ -79,6 +81,9 @@ public:
 	j1Audio*			audio;
 	j1Scene*			scene;
 
+	bool				requestSave = false;
+	bool				requestLoad = false;
+
 private:
 
 	p2List<j1Module*>	modules;
@@ -87,6 +92,8 @@ private:
 	pugi::xml_document	config_file;
 	pugi::xml_node		config;
 	pugi::xml_node		app_config;
+	pugi::xml_document	save_file;
+	pugi::xml_node		save_root;
 	int					argc;
 	char**				args;
 
