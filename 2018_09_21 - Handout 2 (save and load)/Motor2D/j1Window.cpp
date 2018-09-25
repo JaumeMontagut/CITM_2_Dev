@@ -95,14 +95,6 @@ bool j1Window::CleanUp()
 	return true;
 }
 
-bool j1Window::Load(pugi::xml_node& node) {
-	return true;
-}
-
-bool j1Window::Save() {
-	return true;
-}
-
 // Set new window title
 void j1Window::SetTitle(const char* new_title)
 {

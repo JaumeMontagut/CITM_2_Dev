@@ -276,9 +276,6 @@ const char* j1App::GetOrganization() const
 
 // TODO 5: Create a method to actually load an xml file
 // then call all the modules to load themselves
-bool j1App::SaveState() {
-	return true;
-}
 
 bool j1App::LoadState() {
 	pugi::xml_parse_result result = save_file.load_file("savegame.xml");
@@ -303,4 +300,17 @@ bool j1App::LoadState() {
 }
 
 // TODO 7: Create a method to save the current state
+bool j1App::SaveState() {
+	pugi::xml_document newSaveFile;
+	p2List_item<j1Module*>* item = modules.start;
+	while (item != NULL)
+	{
+		if (!item->data->Save(newSaveFile)) {
+			LOG("Module not saved correctly");
+			return false;
+		}
+		item = item->next;
+	}
+	return true;
+}
 

@@ -21,9 +21,6 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
-	bool Load(pugi::xml_node& node);
-	bool Save();
-
 	// Changae title
 	void SetTitle(const char* new_title);
 

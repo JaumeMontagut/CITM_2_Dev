@@ -139,14 +139,6 @@ bool j1Input::CleanUp()
 	return true;
 }
 
-bool j1Input::Load(pugi::xml_node& node) {
-	return true;
-}
-
-bool j1Input::Save() {
-	return true;
-}
-
 // ---------
 bool j1Input::GetWindowEvent(j1EventWindow ev)
 {

@@ -59,14 +59,6 @@ bool j1Textures::CleanUp()
 	return true;
 }
 
-bool j1Textures::Load(pugi::xml_node& node) {
-	return true;
-}
-
-bool j1Textures::Save() {
-	return true;
-}
-
 // Load new texture from file path
 SDL_Texture* const j1Textures::Load(const char* path)
 {

@@ -95,7 +95,10 @@ bool j1Render::Load(pugi::xml_node& node) {
 	return true;
 }
 
-bool j1Render::Save() {
+bool j1Render::Save(pugi::xml_document& doc) {
+	pugi::xml_node renderNode = doc.append_child(name.GetString());
+	renderNode.append_attribute("x") = camera.x;
+	renderNode.append_attribute("y") = camera.y;
 	return true;
 }
 

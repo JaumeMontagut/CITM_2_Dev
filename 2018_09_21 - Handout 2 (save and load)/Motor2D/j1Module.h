@@ -60,7 +60,7 @@ public:
 	}
 
 	// TODO 3: Create new virtual methods to Load and Save
-	virtual bool Save() {
+	virtual bool Save(pugi::xml_document& doc) {
 		return true;
 	}
 

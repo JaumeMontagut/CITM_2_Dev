@@ -80,14 +80,6 @@ bool j1Audio::CleanUp()
 	return true;
 }
 
-bool j1Audio::Load(pugi::xml_node& node) {
-	return true;
-}
-
-bool j1Audio::Save() {
-	return true;
-}
-
 // Play a music file
 bool j1Audio::PlayMusic(const char* path, float fade_time)
 {
