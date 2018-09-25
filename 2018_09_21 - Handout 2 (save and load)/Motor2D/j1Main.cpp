@@ -51,8 +51,11 @@ int main(int argc, char* args[])
 			// Awake all modules -----------------------------------------------
 			case AWAKE:
 			LOG("AWAKE PHASE ===============================");
-			if(App->Awake() == true)
+			if (App->Awake() == true) {
+				//Do the loads
+				App->LoadState();
 				state = START;
+			}
 			else
 			{
 				LOG("ERROR: Awake failed");
