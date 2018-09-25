@@ -85,14 +85,14 @@ bool j1App::Awake()
 		// If the section with the module name exist in config.xml, fill the pointer with the address of a valid xml_node
 		// that can be used to read all variables from that section. Send nullptr if the section does not exist in config.xml
 		
-		pugi::xml_node iteratorNode = App->rootNode.child(item->data->name.GetString());
+		pugi::xml_node iteratorNode = rootNode.child(item->data->name.GetString());
 
 		if (iteratorNode.empty()) {
 			LOG("XML file config for module ", item->data->name.GetString(), " has not been created");
-			ret = item->data->Awake(iteratorNode);//Should be nullptr
+			ret = item->data->Awake(nullptr);
 		}
 		else{
-			ret = item->data->Awake(iteratorNode);
+			ret = item->data->Awake(&iteratorNode);
 		}
 
 		item = item->next;
