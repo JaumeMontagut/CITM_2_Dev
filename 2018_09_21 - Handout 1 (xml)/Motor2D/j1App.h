@@ -69,20 +69,17 @@ public:
 	j1Audio*			audio;
 	j1Scene*			scene;
 
-	// TODO 2: Create two new variables from pugui namespace:
-	// a xml_document to store the while config file and
-	// a xml_node to read specific branches of the xml
-	pugi::xml_document doc;
-	pugi::xml_node rootNode;
-
 private:
 
 	p2List<j1Module*>	modules;
 	uint				frames;
 	float				dt;
 
-
-	//NOTE: Changed TODO 2 to be public variables
+	// TODO 2: Create two new variables from pugui namespace:
+	// a xml_document to store the while config file and
+	// a xml_node to read specific branches of the xml
+	pugi::xml_document doc;
+	pugi::xml_node rootNode;
 
 	int					argc;
 	char**				args;

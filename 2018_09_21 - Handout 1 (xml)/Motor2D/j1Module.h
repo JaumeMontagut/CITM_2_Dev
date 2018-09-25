@@ -24,7 +24,7 @@ public:
 	}
 
 	// Called before render is available
-	virtual bool Awake(pugi::xml_node* nodeToSend = nullptr)
+	virtual bool Awake(pugi::xml_node &node)
 	{
 		return true;
 	}
