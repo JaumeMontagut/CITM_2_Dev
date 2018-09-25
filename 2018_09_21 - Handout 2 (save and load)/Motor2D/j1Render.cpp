@@ -95,15 +95,15 @@ bool j1Render::Load(pugi::xml_node& node) {
 	return true;
 }
 
-bool j1Render::Save(pugi::xml_document& doc) {
-	pugi::xml_node renderNode = doc.append_child(name.GetString());
-	renderNode.append_attribute("x") = camera.x;
-	renderNode.append_attribute("y") = camera.y;
-	return true;
-}
-
 // TODO 8: Create a method to save the state of the renderer
 // using append_child and append_attribute
+bool j1Render::Save(pugi::xml_node& node) {
+	pugi::xml_node renderNode = node.append_child(name.GetString());
+	pugi::xml_node cameraNode = renderNode.append_child("camera");
+	cameraNode.append_attribute("x").set_value(camera.x);
+	cameraNode.append_attribute("y").set_value(camera.y);
+	return true;
+}
 
 void j1Render::SetBackgroundColor(SDL_Color color)
 {

@@ -302,15 +302,20 @@ bool j1App::LoadState() {
 // TODO 7: Create a method to save the current state
 bool j1App::SaveState() {
 	pugi::xml_document newSaveFile;
+	pugi::xml_node saveNode = newSaveFile.append_child("save");
+
 	p2List_item<j1Module*>* item = modules.start;
 	while (item != NULL)
 	{
-		if (!item->data->Save(newSaveFile)) {
+		if (!item->data->Save(saveNode)) {
 			LOG("Module not saved correctly");
 			return false;
 		}
 		item = item->next;
 	}
+
+	newSaveFile.save_file("savegame.xml");
+
 	return true;
 }
 
