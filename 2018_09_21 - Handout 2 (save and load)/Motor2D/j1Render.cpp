@@ -95,6 +95,10 @@ bool j1Render::Load(pugi::xml_node& node) {
 	return true;
 }
 
+bool j1Render::Save() {
+	return true;
+}
+
 // TODO 8: Create a method to save the state of the renderer
 // using append_child and append_attribute
 

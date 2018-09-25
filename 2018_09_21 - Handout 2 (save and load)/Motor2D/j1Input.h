@@ -47,6 +47,9 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
+	bool Load(pugi::xml_node& node);
+	bool Save();
+
 	// Gather relevant win events
 	bool GetWindowEvent(j1EventWindow ev);
 

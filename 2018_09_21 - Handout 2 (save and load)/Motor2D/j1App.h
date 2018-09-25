@@ -48,8 +48,8 @@ public:
 	// that can be called anytime, even if they 
 	// will one execute by the very end of the frame
 	// Load / Save
-	bool Save();
-	bool Load();
+	bool SaveState();
+	bool LoadState();
 
 private:
 

@@ -25,6 +25,9 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
+	bool Load(pugi::xml_node& node);
+	bool Save();
+
 	// Load Texture
 	SDL_Texture* const	Load(const char* path);
 	bool				UnLoad(SDL_Texture* texture);
