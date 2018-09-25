@@ -36,7 +36,7 @@ public:
 	}
 
 	bool operator== (const char* otherText) {
-		return(text == (char*)otherText);
+		return(text == otherText);
 	}
 
 	//METHODS-------------------------
