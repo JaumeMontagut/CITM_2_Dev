@@ -68,6 +68,8 @@ bool j1Map::Load(const char* file_name)
 	{
 		// TODO 3: Create and call a private function to load and fill
 		// all your map data
+		LoadMapData(map_file.child("map"));
+
 	}
 
 	// TODO 4: Create and call a private function to load a tileset
@@ -83,5 +85,39 @@ bool j1Map::Load(const char* file_name)
 	map_loaded = ret;
 
 	return ret;
+}
+
+bool j1Map::LoadMapData(pugi::xml_node &node) {
+	//Orientation
+	if (node.attribute("orientation").as_string() == "orthogonal") {
+		mapTest.orientation = orientation::orthogonal;
+	}
+	else if (node.attribute("orientation").as_string() == "isometric") {
+		mapTest.orientation = orientation::isometric;
+	}
+	else {
+		mapTest.orientation = orientation::invalid;
+	}
+	//Render order
+	if (node.attribute("orientation").as_string() == "right-up") {
+		mapTest.renderOrder = renderOrder::rightUp;
+	}
+	else if (node.attribute("orientation").as_string() == "right-down") {
+		mapTest.renderOrder = renderOrder::rightDown;
+	}
+	else if (node.attribute("orientation").as_string() == "left-up") {
+		mapTest.renderOrder = renderOrder::leftUp;
+	}
+	else if (node.attribute("orientation").as_string() == "left-down") {
+		mapTest.renderOrder = renderOrder::leftDown;
+	}
+	else {
+		mapTest.renderOrder = renderOrder::invalidRenderOrder;
+	}
+	mapTest.renderOrder;
+	mapTest.width = node.attribute("width").as_int();
+	mapTest.height = node.attribute("height").as_int();
+	mapTest.tileWidth = node.attribute("tileWidth").as_int();
+	mapTest.tileHeight = node.attribute("tileHeigth").as_int();
 }
 
