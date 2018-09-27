@@ -33,7 +33,11 @@ void j1Map::Draw()
 
 	// TODO 6: Iterate all tilesets and draw all their 
 	// images in 0,0 (you should have only one tileset for now)
-	//App->render->Blit();
+	std::list<Tileset>::const_iterator iterator;
+	for (iterator = tilesetList.begin(); iterator != tilesetList.end(); ++iterator) {
+		App->render->Blit(iterator->tilesetImage, 0, 0);
+	}
+	//Source (iterate on a std list): http://www.cplusplus.com/forum/general/22957/
 }
 
 // Called before quitting
@@ -130,6 +134,7 @@ bool j1Map::LoadMap(pugi::xml_node &node) {
 bool j1Map::LoadTilesets(pugi::xml_node &node) {
 	for (pugi::xml_node tileset = node.child("tileset"); tileset; tileset = tileset.next_sibling("tileset")) {
 		Tileset newTileset;
+		newTileset.tilesetImage = App->tex->Load(tileset.child("image").attribute("source").as_string());
 		newTileset.firstGid = tileset.attribute("firstgid").as_int();
 		newTileset.name = tileset.attribute("name").as_string();
 		newTileset.tileWidth = tileset.attribute("tilewidth").as_int();
