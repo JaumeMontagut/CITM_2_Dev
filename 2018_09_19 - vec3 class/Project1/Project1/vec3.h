@@ -85,21 +85,19 @@ public:
 	}
 
 	void zero() {
-		x = (_type)0;
-		y = (_type)0;
-		z = (_type)0;
+		x = y = z = (_type)0;
 	}
 
 	bool is_zero() const {
 		return (x == (_type)0 && y == (_type)0 && z == (_type)0);
 	}
 
-	_type distance_to(const vec3 &otherVec) const {
-		return (_type) sqrt((otherVec.x - x)*(otherVec.x - x) + (otherVec.y - y) * (otherVec.y - y) + (otherVec.z - z) * (otherVec.z - z));
+	double distance_to(const vec3 &otherVec) const {
+		return sqrt((otherVec.x - x)*(otherVec.x - x) + (otherVec.y - y) * (otherVec.y - y) + (otherVec.z - z) * (otherVec.z - z));
 	}
 
-	_type distance_to_squared(const vec3 &otherVec) const {
-		return (_type)(otherVec.x - x) * (otherVec.x - x) + (otherVec.y - y) * (otherVec.y - y) + (otherVec.z - z) * (otherVec.z - z);
+	double distance_to_squared(const vec3 &otherVec) const {
+		return (double)(otherVec.x - x) * (otherVec.x - x) + (otherVec.y - y) * (otherVec.y - y) + (otherVec.z - z) * (otherVec.z - z);
 	}
 
 };
