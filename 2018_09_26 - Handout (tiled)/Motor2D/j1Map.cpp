@@ -72,17 +72,21 @@ bool j1Map::Load(const char* file_name)
 	{
 		// TODO 3: Create and call a private function to load and fill
 		// all your map data
-		LoadMap(map_file.child("map"), file_name);
+		ret = LoadMap(map_file.child("map"), file_name);
 	}
 
 	// TODO 4: Create and call a private function to load a tileset
 	// remember to support more any number of tilesets!
-	LoadTilesets(map_file.child("map"));
 
 	if(ret == true)
 	{
 		// TODO 5: LOG all the data loaded
 		// iterate all tilesets and LOG everything
+		ret = LoadTilesets(map_file.child("map"));
+	}
+	
+	if (ret == true) {
+		ret = LoadLayers(map_file.child("map"));
 	}
 
 	map_loaded = ret;
@@ -130,14 +134,16 @@ bool j1Map::LoadMap(pugi::xml_node &node, const char * file_name) {
 		LOG("Succesfully parsed map XML file: %s", file_name);
 		LOG("width: %i  height: %i", newMap.width, newMap.height);
 		LOG("tile_width: %i tile_height: %i", newMap.tileWidth, newMap.tileHeight);
+		return true;
 	}
 	else {
 		LOG("Map not parsed successfully");
+		return false;
 	}
-	return true;
 }
 
 bool j1Map::LoadTilesets(pugi::xml_node &node) {
+	bool ret = true;
 	for (pugi::xml_node tileset = node.child("tileset"); tileset; tileset = tileset.next_sibling("tileset")) {
 		Tileset newTileset;
 		newTileset.tilesetImage = App->tex->Load(tileset.child("image").attribute("source").as_string());
@@ -158,9 +164,42 @@ bool j1Map::LoadTilesets(pugi::xml_node &node) {
 		}
 		else {
 			LOG("Tileset not parsed succesfully");
+			ret = false;
 		}
 	}
 	//TODO: Remove front and make a decent loop
-	return true;
+	return ret;
+}
+
+bool j1Map::LoadLayers(pugi::xml_node& node) {
+	bool ret = true;
+	//for (pugi::xml_node layer = node.child("layer"); layer; layer = layer.next_sibling("layer")) {
+	//	Layer newLayer;
+	//	newLayer.name = layer.attribute("name").as_string();
+	//	newLayer.width = layer.attribute("width").as_int();
+	//	newLayer.height = layer.attribute("height").as_int();
+	//	newLayer.tileArr = new int[newLayer.width * newLayer.height];
+
+	//	//Initial conditions
+	//	int i = 0;
+	//	pugi::xml_node tile = layer.child("data").child("tile");
+	//	//Condition
+	//	while (tile) {
+	//		newLayer.tileArr[i] = tile.attribute("gid").as_int();
+	//		//Increments
+	//		i++;
+	//		tile.next_sibling("tile");
+	//	}
+
+	//	//TODO: name isn't checked currently
+	//	if (newLayer.width != 0 && newLayer.height != 0) {
+	//		LOG("Layer loaded sucessfully");
+	//	}
+	//	else {
+	//		LOG("Error loading layer");
+	//		ret = false;
+	//	}
+	//}
+	return ret;
 }
 

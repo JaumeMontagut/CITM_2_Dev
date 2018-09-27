@@ -1,0 +1,4 @@
+Research
+- Floating point error
+Questions
+- How to pause game execution? (the compiler should help you avoid big errors)

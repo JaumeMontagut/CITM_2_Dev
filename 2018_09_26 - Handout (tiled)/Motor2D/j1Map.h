@@ -8,6 +8,13 @@
 #include <list>
 //#include "p2SString.h"
 
+struct Layer {
+	p2SString name;
+	int width = 0;
+	int height = 0;
+	int* tileArr = nullptr;
+};
+
 // TODO 2: Create a struct to hold information for a TileSet
 // Ignore Terrain Types and Tile Types for now, but we want the image!
 // ----------------------------------------------------
@@ -69,6 +76,7 @@ public:
 
 	bool LoadMap(pugi::xml_node& node, const char* file_name);
 	bool LoadTilesets(pugi::xml_node& node);
+	bool LoadLayers(pugi::xml_node& node);
 
 private:
 
@@ -78,6 +86,7 @@ public:
 	// TODO 1: Add your struct for map info as public for now
 	std::list<Tileset> tilesetList;
 	std::list<Map>mapList;
+	std::list<Layer>layerList;
 
 private:
 
