@@ -33,7 +33,7 @@ void j1Map::Draw()
 
 	// TODO 6: Iterate all tilesets and draw all their 
 	// images in 0,0 (you should have only one tileset for now)
-
+	//App->render->Blit();
 }
 
 // Called before quitting
@@ -68,13 +68,12 @@ bool j1Map::Load(const char* file_name)
 	{
 		// TODO 3: Create and call a private function to load and fill
 		// all your map data
-		LoadMapData(map_file.child("map"));
-
+		LoadMap(map_file.child("map"));
 	}
 
 	// TODO 4: Create and call a private function to load a tileset
 	// remember to support more any number of tilesets!
-	
+	LoadTilesets(map_file.child("map"));
 
 	if(ret == true)
 	{
@@ -87,37 +86,64 @@ bool j1Map::Load(const char* file_name)
 	return ret;
 }
 
-bool j1Map::LoadMapData(pugi::xml_node &node) {
+bool j1Map::LoadMap(pugi::xml_node &node) {
+	Map newMap;
 	//Orientation
 	if (node.attribute("orientation").as_string() == "orthogonal") {
-		mapTest.orientation = orientation::orthogonal;
+		newMap.orientation = mapOrientation::orthogonal;
 	}
 	else if (node.attribute("orientation").as_string() == "isometric") {
-		mapTest.orientation = orientation::isometric;
+		newMap.orientation = mapOrientation::isometric;
 	}
 	else {
-		mapTest.orientation = orientation::invalid;
+		newMap.orientation = mapOrientation::invalid;
 	}
 	//Render order
 	if (node.attribute("orientation").as_string() == "right-up") {
-		mapTest.renderOrder = renderOrder::rightUp;
+		newMap.renderOrder = renderOrder::rightUp;
 	}
 	else if (node.attribute("orientation").as_string() == "right-down") {
-		mapTest.renderOrder = renderOrder::rightDown;
+		newMap.renderOrder = renderOrder::rightDown;
 	}
 	else if (node.attribute("orientation").as_string() == "left-up") {
-		mapTest.renderOrder = renderOrder::leftUp;
+		newMap.renderOrder = renderOrder::leftUp;
 	}
 	else if (node.attribute("orientation").as_string() == "left-down") {
-		mapTest.renderOrder = renderOrder::leftDown;
+		newMap.renderOrder = renderOrder::leftDown;
 	}
 	else {
-		mapTest.renderOrder = renderOrder::invalidRenderOrder;
+		newMap.renderOrder = renderOrder::invalidRenderOrder;
 	}
-	mapTest.renderOrder;
-	mapTest.width = node.attribute("width").as_int();
-	mapTest.height = node.attribute("height").as_int();
-	mapTest.tileWidth = node.attribute("tileWidth").as_int();
-	mapTest.tileHeight = node.attribute("tileHeigth").as_int();
+	newMap.renderOrder;
+	newMap.width = node.attribute("width").as_int();
+	newMap.height = node.attribute("height").as_int();
+	newMap.tileWidth = node.attribute("tileWidth").as_int();
+	newMap.tileHeight = node.attribute("tileHeigth").as_int();
+	mapList.push_back(newMap);
+
+	LOG("Succesfully parsed map XML file: ");//TODO Add the name of the file
+	LOG("width: ", newMap.width, " height: ", newMap.height);
+	LOG("width: ", newMap.width, " height: ", newMap.height);
+	return true;
+}
+
+bool j1Map::LoadTilesets(pugi::xml_node &node) {
+	for (pugi::xml_node tileset = node.child("tileset"); tileset; tileset = tileset.next_sibling("tileset")) {
+		Tileset newTileset;
+		newTileset.firstGid = tileset.attribute("firstgid").as_int();
+		newTileset.name = tileset.attribute("name").as_string();
+		newTileset.tileWidth = tileset.attribute("tilewidth").as_int();
+		newTileset.tileHeight = tileset.attribute("tileheight").as_int();
+		newTileset.spacing = tileset.attribute("spacing").as_int();
+		newTileset.margin = tileset.attribute("margin").as_int();
+		tilesetList.push_back(newTileset);
+
+		LOG("Tileset ----");
+		LOG("name: ", newTileset.name, " firstgid: ", newTileset.firstGid);
+		LOG("tile width: ", newTileset.tileWidth, " tile height: ", newTileset.tileHeight);
+		LOG("spacing", newTileset.spacing, " margin: ", newTileset.margin);
+	}
+	//TODO: Remove front and make a decent loop
+	return true;
 }
 

@@ -5,22 +5,23 @@
 #include "p2List.h"
 #include "p2Point.h"
 #include "j1Module.h"
+#include <list>
 //#include "p2SString.h"
 
 // TODO 2: Create a struct to hold information for a TileSet
 // Ignore Terrain Types and Tile Types for now, but we want the image!
 // ----------------------------------------------------
-struct TileSet {
-	uint firstGrid = 0;
+struct Tileset {
+	uint firstGid = 0;
 	p2SString name;
-	uint tileWidht = 0;
-	uint tileHeigth = 0;
+	uint tileWidth = 0;
+	uint tileHeight = 0;
 	int spacing = -1;
 	int margin = -1;
 };
 
 // TODO 1: Create a struct needed to hold the information to Map node
-enum class orientation {
+enum class mapOrientation {
 	invalid,
 	orthogonal,
 	isometric
@@ -35,7 +36,7 @@ enum class renderOrder {
 };
 
 struct Map{
-	orientation orientation = orientation::invalid;
+	mapOrientation orientation = mapOrientation::invalid;
 	renderOrder renderOrder = renderOrder::invalidRenderOrder;
 	uint width = 0;
 	uint height = 0;
@@ -65,7 +66,8 @@ public:
 	// Load new map
 	bool Load(const char* path);
 
-	bool LoadMapData(pugi::xml_node& node);
+	bool LoadMap(pugi::xml_node& node);
+	bool LoadTilesets(pugi::xml_node& node);
 
 private:
 
@@ -73,8 +75,8 @@ private:
 public:
 
 	// TODO 1: Add your struct for map info as public for now
-	//List<TileSet>		tileSetList;
-	Map mapTest;
+	std::list<Tileset> tilesetList;
+	std::list<Map>mapList;
 
 private:
 
