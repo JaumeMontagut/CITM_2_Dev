@@ -121,8 +121,8 @@ bool j1Map::LoadMap(pugi::xml_node &node) {
 	newMap.renderOrder;
 	newMap.width = node.attribute("width").as_int();
 	newMap.height = node.attribute("height").as_int();
-	newMap.tileWidth = node.attribute("tileWidth").as_int();
-	newMap.tileHeight = node.attribute("tileHeigth").as_int();
+	newMap.tileWidth = node.attribute("tilewidth").as_int();
+	newMap.tileHeight = node.attribute("tileheight").as_int();
 	mapList.push_back(newMap);
 
 	LOG("Succesfully parsed map XML file: ");//TODO Add the name of the file
