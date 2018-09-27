@@ -47,7 +47,7 @@ bool j1Map::CleanUp()
 
 	// TODO 2: Make sure you clean up any memory allocated
 	// from tilesets / map
-
+	
 
 	map_file.reset();
 
@@ -72,7 +72,7 @@ bool j1Map::Load(const char* file_name)
 	{
 		// TODO 3: Create and call a private function to load and fill
 		// all your map data
-		LoadMap(map_file.child("map"));
+		LoadMap(map_file.child("map"), file_name);
 	}
 
 	// TODO 4: Create and call a private function to load a tileset
@@ -90,7 +90,7 @@ bool j1Map::Load(const char* file_name)
 	return ret;
 }
 
-bool j1Map::LoadMap(pugi::xml_node &node) {
+bool j1Map::LoadMap(pugi::xml_node &node, const char * file_name) {
 	Map newMap;
 	//Orientation
 	if (node.attribute("orientation").as_string() == "orthogonal") {
@@ -103,16 +103,16 @@ bool j1Map::LoadMap(pugi::xml_node &node) {
 		newMap.orientation = mapOrientation::invalid;
 	}
 	//Render order
-	if (node.attribute("orientation").as_string() == "right-up") {
+	if (node.attribute("renderorder").as_string() == "right-up") {
 		newMap.renderOrder = renderOrder::rightUp;
 	}
-	else if (node.attribute("orientation").as_string() == "right-down") {
+	else if (node.attribute("renderorder").as_string() == "right-down") {
 		newMap.renderOrder = renderOrder::rightDown;
 	}
-	else if (node.attribute("orientation").as_string() == "left-up") {
+	else if (node.attribute("renderorder").as_string() == "left-up") {
 		newMap.renderOrder = renderOrder::leftUp;
 	}
-	else if (node.attribute("orientation").as_string() == "left-down") {
+	else if (node.attribute("renderorder").as_string() == "left-down") {
 		newMap.renderOrder = renderOrder::leftDown;
 	}
 	else {
@@ -125,9 +125,15 @@ bool j1Map::LoadMap(pugi::xml_node &node) {
 	newMap.tileHeight = node.attribute("tileheight").as_int();
 	mapList.push_back(newMap);
 
-	LOG("Succesfully parsed map XML file: ");//TODO Add the name of the file
-	LOG("width: ", newMap.width, " height: ", newMap.height);
-	LOG("width: ", newMap.width, " height: ", newMap.height);
+	//For some reason renderOrder and orientation don't work when checket (they don't seem to be different than invalid even thought the names are correctly written)
+	if (newMap.width != 0 && newMap.height != 0 && newMap.tileWidth != 0 && newMap.tileHeight != 0) {
+		LOG("Succesfully parsed map XML file: %s", file_name);
+		LOG("width: %i  height: %i", newMap.width, newMap.height);
+		LOG("tile_width: %i tile_height: %i", newMap.tileWidth, newMap.tileHeight);
+	}
+	else {
+		LOG("Map not parsed successfully");
+	}
 	return true;
 }
 
@@ -143,10 +149,16 @@ bool j1Map::LoadTilesets(pugi::xml_node &node) {
 		newTileset.margin = tileset.attribute("margin").as_int();
 		tilesetList.push_back(newTileset);
 
-		LOG("Tileset ----");
-		LOG("name: ", newTileset.name, " firstgid: ", newTileset.firstGid);
-		LOG("tile width: ", newTileset.tileWidth, " tile height: ", newTileset.tileHeight);
-		LOG("spacing", newTileset.spacing, " margin: ", newTileset.margin);
+		//INFO: name can't be checked as it doesn't have a default value
+		if (newTileset.tilesetImage != nullptr && newTileset.firstGid != 0 && newTileset.tileWidth != 0 && newTileset.tileHeight != 0 && newTileset.spacing != -1 && newTileset.margin != -1) {
+			LOG("Tileset ----");
+			LOG("name: %s firstgid: %i", newTileset.name, newTileset.firstGid);
+			LOG("tile width: %s tile height: %i", newTileset.tileWidth, newTileset.tileHeight);
+			LOG("spacing %i margin: %i", newTileset.spacing, newTileset.margin);
+		}
+		else {
+			LOG("Tileset not parsed succesfully");
+		}
 	}
 	//TODO: Remove front and make a decent loop
 	return true;

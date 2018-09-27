@@ -12,7 +12,7 @@
 // Ignore Terrain Types and Tile Types for now, but we want the image!
 // ----------------------------------------------------
 struct Tileset {
-	SDL_Texture* tilesetImage;
+	SDL_Texture* tilesetImage = nullptr;
 	uint firstGid = 0;
 	p2SString name;
 	uint tileWidth = 0;
@@ -67,7 +67,7 @@ public:
 	// Load new map
 	bool Load(const char* path);
 
-	bool LoadMap(pugi::xml_node& node);
+	bool LoadMap(pugi::xml_node& node, const char* file_name);
 	bool LoadTilesets(pugi::xml_node& node);
 
 private:
