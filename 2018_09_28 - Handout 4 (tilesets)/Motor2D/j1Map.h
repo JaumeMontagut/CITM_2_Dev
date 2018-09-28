@@ -7,6 +7,15 @@
 #include "j1Module.h"
 
 // TODO 1: Create a struct for the map layer
+struct Layer {
+	~Layer();
+
+	p2SString name;
+	uint width = 0u;
+	uint height = 0u;
+	uint * tileArray = nullptr;
+};
+
 // ----------------------------------------------------
 
 	// TODO 6: Short function to get the value of x,y
@@ -52,6 +61,7 @@ struct MapData
 	MapTypes			type;
 	p2List<TileSet*>	tilesets;
 	// TODO 2: Add a list/array of layers to the map!
+	p2List<Layer*>		layers;
 };
 
 // ----------------------------------------------------

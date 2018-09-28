@@ -77,7 +77,14 @@ bool j1Map::CleanUp()
 
 	// TODO 2: clean up all layer data
 	// Remove all layers
+	p2List_item<Layer*>* layerIterator;
+	layerIterator = data.layers.start;
 
+	while (layerIterator != NULL) {
+		RELEASE(layerIterator->data);
+		item = item->next;
+	}
+	data.layers.clear();
 
 	// Clean up the pugui tree
 	map_file.reset();
@@ -289,6 +296,11 @@ bool j1Map::LoadTilesetImage(pugi::xml_node& tileset_node, TileSet* set)
 	}
 
 	return ret;
+}
+
+//Layer methods
+Layer::~Layer() {
+	RELEASE(tileArray);
 }
 
 // TODO 3: Create the definition for a function that loads a single layer
