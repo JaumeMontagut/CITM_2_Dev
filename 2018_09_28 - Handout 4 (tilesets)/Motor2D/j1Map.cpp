@@ -77,7 +77,7 @@ bool j1Map::CleanUp()
 
 	// TODO 2: clean up all layer data
 	// Remove all layers
-	p2List_item<Layer*>* layerIterator;
+	p2List_item<MapLayer*>* layerIterator;
 	layerIterator = data.layers.start;
 
 	while (layerIterator != NULL) {
@@ -299,11 +299,29 @@ bool j1Map::LoadTilesetImage(pugi::xml_node& tileset_node, TileSet* set)
 }
 
 //Layer methods
-Layer::~Layer() {
-	RELEASE(tileArray);
+MapLayer::~MapLayer() {
+	if (tileArray != nullptr) {
+		delete[] tileArray;
+		tileArray = nullptr;
+	}
 }
 
 // TODO 3: Create the definition for a function that loads a single layer
-//bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
-//{
-//}
+bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
+{
+	bool ret = true;
+
+	layer->name = node.attribute("name").as_string();
+	layer->width = node.attribute("width").as_int();
+	layer->height = node.attribute("height").as_int();
+	//First put all values to zero
+	memset(layer->tileArray, 0, layer->width * layer->height * sizeof(uint));
+	//Then set the values from the xml
+	pugi::xml_node tile;
+	uint i = 0;
+	for (tile = map_file.child("map").child("layer").child("data").child("tile"); tile && ret; tile = tile.next_sibling("tile")) {
+		layer->tileArray[i] = tile.attribute("gid").as_int();
+		i++;
+	}
+
+}
