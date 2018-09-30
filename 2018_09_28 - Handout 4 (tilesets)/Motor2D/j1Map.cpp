@@ -353,14 +353,3 @@ bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 inline uint j1Map::Get(int x, int y) const {
 	return(y * data.tile_width + x);
 }
-
-
-
-// ----------------------------------------------------
-
-//TODO 8
-iPoint j1Map::MapToWorld(int x, int y) const {
-	iPoint retVec;
-	retVec.x = x * data.tile_width;
-	retVec.y = y * data.tile_height;
-}
