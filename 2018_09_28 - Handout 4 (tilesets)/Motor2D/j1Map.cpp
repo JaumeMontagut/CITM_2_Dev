@@ -133,7 +133,18 @@ bool j1Map::Load(const char* file_name)
 
 	// TODO 4: Iterate all layers and load each of them
 	// Load layer info ----------------------------------------------
+	pugi::xml_node nodeLayer;
+	for (nodeLayer = map_file.child("map").child("layer"); nodeLayer && ret; nodeLayer = nodeLayer.next_sibling("layer"))
+	{
+		MapLayer* mapLayer = new MapLayer();
 
+		if (ret == true)
+		{
+			ret = LoadLayer(nodeLayer, mapLayer);
+		}
+
+		data.layers.add(mapLayer);
+	}
 
 	if(ret == true)
 	{
@@ -314,8 +325,9 @@ bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 	layer->name = node.attribute("name").as_string();
 	layer->width = node.attribute("width").as_int();
 	layer->height = node.attribute("height").as_int();
+	layer->tileArray = new uint[layer->width * layer->height];
 	//First put all values to zero
-	memset(layer->tileArray, 0, layer->width * layer->height * sizeof(uint));
+	memset(layer->tileArray, 0u, layer->width * layer->height * sizeof(uint));
 	//Then set the values from the xml
 	pugi::xml_node tile;
 	uint i = 0;
@@ -324,4 +336,5 @@ bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 		i++;
 	}
 
+	return ret;
 }
