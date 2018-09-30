@@ -352,5 +352,4 @@ bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 // TODO 6: Short function to get the value of x,y
 inline uint j1Map::Get(int x, int y) const {
 	return(y * data.columns + x);
-	return(y * data.columns + x);
 }
