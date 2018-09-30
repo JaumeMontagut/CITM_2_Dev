@@ -20,17 +20,7 @@ struct MapLayer {
 struct TileSet
 {
 	// TODO 7: Create a method that receives a tile id and returns it's Rectfind the Rect associated with a specific tile id
-	SDL_Rect GetTileRect(int id) const {
-		SDL_Rect retRect;
-		retRect.w = tile_width;
-		retRect.h = tile_height;
-		uint yPos = id / num_tiles_width;
-		uint xPos = (id - 1) % num_tiles_width;
-		retRect.y = margin + yPos * tile_height + (yPos - 1) * spacing;
-		retRect.x = margin + xPos * tile_width  + (xPos - 1) * spacing;
-		//INFO: There is no spacing if they are in position 0 (y or x)
-		return retRect;
-	}
+	SDL_Rect GetTileRect(int id) const;
 
 	p2SString			name;
 	int					firstgid;
