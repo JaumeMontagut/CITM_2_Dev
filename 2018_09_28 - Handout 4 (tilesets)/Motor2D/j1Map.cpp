@@ -33,7 +33,7 @@ void j1Map::Draw()
 
 	// TODO 5: Prepare the loop to draw all tilesets + Blit
 	p2List_item<TileSet*>* firstTileset = data.tilesets.start;
-	p2List_item<MapLayer*>* firstLayer = data.layers.start;
+	p2List_item<MapLayer*>* firstLayer = data.mapLayers.start;
 	for (int i = 0; i < firstLayer->data->columns; ++i) {
 		for (int j = 0; j < firstLayer->data->rows; ++j) {
 			uint gid = firstLayer->data->tileArray[Get(i, j)];
@@ -88,13 +88,13 @@ bool j1Map::CleanUp()
 	// TODO 2: clean up all layer data
 	// Remove all layers
 	p2List_item<MapLayer*>* layerIterator;
-	layerIterator = data.layers.start;
+	layerIterator = data.mapLayers.start;
 
 	while (layerIterator != NULL) {
 		RELEASE(layerIterator->data);
 		item = item->next;
 	}
-	data.layers.clear();
+	data.mapLayers.clear();
 
 	// Clean up the pugui tree
 	map_file.reset();
@@ -153,7 +153,7 @@ bool j1Map::Load(const char* file_name)
 			ret = LoadLayer(nodeLayer, mapLayer);
 		}
 
-		data.layers.add(mapLayer);
+		data.mapLayers.add(mapLayer);
 	}
 
 	if(ret == true)
@@ -175,7 +175,7 @@ bool j1Map::Load(const char* file_name)
 
 		// TODO 4: Add info here about your loaded layers
 		// Adapt this vcode with your own variables
-		p2List_item<MapLayer*>* item_layer = data.layers.start;
+		p2List_item<MapLayer*>* item_layer = data.mapLayers.start;
 		while(item_layer != NULL)
 		{
 			MapLayer* l = item_layer->data;
