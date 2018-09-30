@@ -36,8 +36,12 @@ void j1Map::Draw()
 	p2List_item<MapLayer*>* firstLayer = data.layers.start;
 	for (int i = 0; i < firstLayer->data->width; ++i) {
 		for (int j = 0; j < firstLayer->data->height; ++j) {
-			iPoint worldPos = MapToWorld(i, j);
-			App->render->Blit(firstTileset->data->texture, worldPos.x, worldPos.y, &firstTileset->data->GetTileRect(firstLayer->data->tileArray[Get(i,j)]));
+			uint gid = firstLayer->data->tileArray[Get(i, j)];
+			if (gid != 0){
+				iPoint worldPos = MapToWorld(i, j);
+				App->render->Blit(firstTileset->data->texture, worldPos.x, worldPos.y, &firstTileset->data->GetTileRect(gid));
+			}
+			
 		}
 	}
 
@@ -347,5 +351,6 @@ bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 
 // TODO 6: Short function to get the value of x,y
 inline uint j1Map::Get(int x, int y) const {
+	return(y * data.width + x);
 	return(y * data.width + x);
 }
