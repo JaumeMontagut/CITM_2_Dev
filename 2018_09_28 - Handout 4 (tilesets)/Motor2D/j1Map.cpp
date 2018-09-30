@@ -32,11 +32,20 @@ void j1Map::Draw()
 		return;
 
 	// TODO 5: Prepare the loop to draw all tilesets + Blit
+	p2List_item<TileSet*>* firstTileset = data.tilesets.start;
+	p2List_item<MapLayer*>* firstLayer = data.layers.start;
+	uint k = 0;
+	for (int i = 0; i < firstTileset->data->num_tiles_width; i++) {
+		for (int j = 0; j < firstTileset->data->num_tiles_height; j++) {
+			iPoint worldPos = MapToWorld(i, j);
+			App->render->Blit(firstTileset->data->texture,worldPos.x,worldPos.y,&firstTileset->data->GetTileRect(firstLayer->data->tileArray[k++]));
+		}
+	}
 
-		// TODO 9: Complete the draw function
+
+	// TODO 9: Complete the draw function
 
 }
-
 
 iPoint j1Map::MapToWorld(int x, int y) const
 {
@@ -165,7 +174,6 @@ bool j1Map::Load(const char* file_name)
 
 		// TODO 4: Add info here about your loaded layers
 		// Adapt this vcode with your own variables
-		/*
 		p2List_item<MapLayer*>* item_layer = data.layers.start;
 		while(item_layer != NULL)
 		{
@@ -174,7 +182,7 @@ bool j1Map::Load(const char* file_name)
 			LOG("name: %s", l->name.GetString());
 			LOG("tile width: %d tile height: %d", l->width, l->height);
 			item_layer = item_layer->next;
-		}*/
+		}
 	}
 
 	map_loaded = ret;
@@ -337,4 +345,22 @@ bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 	}
 
 	return ret;
+}
+
+// ----------------------------------------------------
+
+// TODO 6: Short function to get the value of x,y
+inline uint j1Map::Get(int x, int y) const {
+	return(y * data.tile_width + x);
+}
+
+
+
+// ----------------------------------------------------
+
+//TODO 8
+iPoint j1Map::MapToWorld(int x, int y) const {
+	iPoint retVec;
+	retVec.x = x * data.tile_width;
+	retVec.y = y * data.tile_height;
 }
