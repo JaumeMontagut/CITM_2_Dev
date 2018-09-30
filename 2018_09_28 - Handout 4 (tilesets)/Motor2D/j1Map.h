@@ -11,8 +11,8 @@ struct MapLayer {
 	~MapLayer();
 
 	p2SString name;
-	uint num_tiles_width = 0u;
-	uint num_tiles_height = 0u;
+	uint columns = 0u;
+	uint rows = 0u;
 	uint * tileArray = nullptr;
 };
 
@@ -31,8 +31,8 @@ struct TileSet
 	SDL_Texture*		texture;
 	int					tex_width;
 	int					tex_height;
-	int					num_tiles_width;
-	int					num_tiles_height;
+	int					columns;
+	int					rows;
 	int					offset_x;
 	int					offset_y;
 };
@@ -47,8 +47,8 @@ enum MapTypes
 // ----------------------------------------------------
 struct MapData
 {
-	int					num_tiles_width;
-	int					num_tiles_height;
+	int					columns;
+	int					rows;
 	int					tile_width;//The width of a tile in pixels
 	int					tile_height;//The height of a tile in pixels
 	SDL_Color			background_color;

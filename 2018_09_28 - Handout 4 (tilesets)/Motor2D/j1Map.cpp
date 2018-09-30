@@ -34,8 +34,8 @@ void j1Map::Draw()
 	// TODO 5: Prepare the loop to draw all tilesets + Blit
 	p2List_item<TileSet*>* firstTileset = data.tilesets.start;
 	p2List_item<MapLayer*>* firstLayer = data.layers.start;
-	for (int i = 0; i < firstLayer->data->num_tiles_width; ++i) {
-		for (int j = 0; j < firstLayer->data->num_tiles_height; ++j) {
+	for (int i = 0; i < firstLayer->data->columns; ++i) {
+		for (int j = 0; j < firstLayer->data->rows; ++j) {
 			uint gid = firstLayer->data->tileArray[Get(i, j)];
 			if (gid != 0){
 				iPoint worldPos = MapToWorld(i, j);
@@ -64,8 +64,8 @@ SDL_Rect TileSet::GetTileRect(int id) const
 	SDL_Rect rect;
 	rect.w = tile_width;
 	rect.h = tile_height;
-	rect.x = margin + ((rect.w + spacing) * (relative_id % num_tiles_width));
-	rect.y = margin + ((rect.h + spacing) * (relative_id / num_tiles_width));
+	rect.x = margin + ((rect.w + spacing) * (relative_id % columns));
+	rect.y = margin + ((rect.h + spacing) * (relative_id / columns));
 	return rect;
 }
 
@@ -159,7 +159,7 @@ bool j1Map::Load(const char* file_name)
 	if(ret == true)
 	{
 		LOG("Successfully parsed map XML file: %s", file_name);
-		LOG("width: %d height: %d", data.num_tiles_width, data.num_tiles_height);
+		LOG("width: %d height: %d", data.columns, data.rows);
 		LOG("tile_width: %d tile_height: %d", data.tile_width, data.tile_height);
 
 		p2List_item<TileSet*>* item = data.tilesets.start;
@@ -181,7 +181,7 @@ bool j1Map::Load(const char* file_name)
 			MapLayer* l = item_layer->data;
 			LOG("Layer ----");
 			LOG("name: %s", l->name.GetString());
-			LOG("tile width: %d tile height: %d", l->num_tiles_width, l->num_tiles_height);
+			LOG("tile width: %d tile height: %d", l->columns, l->rows);
 			item_layer = item_layer->next;
 		}
 	}
@@ -204,8 +204,8 @@ bool j1Map::LoadMap()
 	}
 	else
 	{
-		data.num_tiles_width = map.attribute("width").as_int();
-		data.num_tiles_height = map.attribute("height").as_int();
+		data.columns = map.attribute("width").as_int();
+		data.rows = map.attribute("height").as_int();
 		data.tile_width = map.attribute("tilewidth").as_int();
 		data.tile_height = map.attribute("tileheight").as_int();
 		p2SString bg_color(map.attribute("backgroundcolor").as_string());
@@ -311,8 +311,8 @@ bool j1Map::LoadTilesetImage(pugi::xml_node& tileset_node, TileSet* set)
 			set->tex_height = h;
 		}
 
-		set->num_tiles_width = set->tex_width / set->tile_width;
-		set->num_tiles_height = set->tex_height / set->tile_height;
+		set->columns = set->tex_width / set->tile_width;
+		set->rows = set->tex_height / set->tile_height;
 	}
 
 	return ret;
@@ -332,11 +332,11 @@ bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 	bool ret = true;
 
 	layer->name = node.attribute("name").as_string();
-	layer->num_tiles_width = node.attribute("width").as_int();
-	layer->num_tiles_height = node.attribute("height").as_int();
-	layer->tileArray = new uint[layer->num_tiles_width * layer->num_tiles_height];
+	layer->columns = node.attribute("width").as_int();
+	layer->rows = node.attribute("height").as_int();
+	layer->tileArray = new uint[layer->columns * layer->rows];
 	//First put all values to zero
-	memset(layer->tileArray, 0u, layer->num_tiles_width * layer->num_tiles_height * sizeof(uint));
+	memset(layer->tileArray, 0u, layer->columns * layer->rows * sizeof(uint));
 	//Then set the values from the xml
 	uint i = 0;
 	for (pugi::xml_node tile = node.child("data").child("tile"); tile && ret; tile = tile.next_sibling("tile")) {
@@ -351,6 +351,6 @@ bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 
 // TODO 6: Short function to get the value of x,y
 inline uint j1Map::Get(int x, int y) const {
-	return(y * data.num_tiles_width + x);
-	return(y * data.num_tiles_width + x);
+	return(y * data.columns + x);
+	return(y * data.columns + x);
 }
