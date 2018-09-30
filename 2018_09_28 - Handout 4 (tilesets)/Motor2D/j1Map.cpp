@@ -334,11 +334,10 @@ bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 	//First put all values to zero
 	memset(layer->tileArray, 0u, layer->width * layer->height * sizeof(uint));
 	//Then set the values from the xml
-	pugi::xml_node tile;
 	uint i = 0;
-	for (tile = map_file.child("map").child("layer").child("data").child("tile"); tile && ret; tile = tile.next_sibling("tile")) {
-		layer->tileArray[i] = tile.attribute("gid").as_int();
-		i++;
+	for (pugi::xml_node tile = node.child("data").child("tile"); tile && ret; tile = tile.next_sibling("tile")) {
+		layer->tileArray[i] = tile.attribute("gid").as_uint(0);
+		++i;
 	}
 
 	return ret;
@@ -348,5 +347,5 @@ bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 
 // TODO 6: Short function to get the value of x,y
 inline uint j1Map::Get(int x, int y) const {
-	return(y * (data.width / data.tile_width) + x);
+	return(y * data.width + x);
 }
