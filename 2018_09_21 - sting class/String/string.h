@@ -12,31 +12,35 @@ public:
 	}
 
 	string(const string &otherString) {
-		text = otherString.text;
+		text = new char[sizeof(otherString.text)];
+		for (int i = 0; i < sizeof(otherString.text); i++) {
+			text[i] = otherString.text[i];
+		}
 	}
 
 	string(const char* text) {
-		this->text = (char*)text;
+		this->text = new char[sizeof(text)];
+		for (int i = 0; i < sizeof(text); i++) {
+			this->text[i] = text[i];
+		}
 	}
 
 	//OPERATORS-----------------------
 
 	string operator= (const string &otherString) {
-		text = otherString.text;
-		return *this;
+
 	}
 
 	string operator= (const char* otherText) {
-		text = (char*)otherText;
-		return *this;
+
 	}
 
 	bool operator== (const string &otherString) {
-		return(text == otherString.text);
+
 	}
 
 	bool operator== (const char* otherText) {
-		return(text == otherText);
+
 	}
 
 	//METHODS-------------------------
