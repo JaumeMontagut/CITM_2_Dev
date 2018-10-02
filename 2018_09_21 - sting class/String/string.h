@@ -30,8 +30,8 @@ public:
 	}
 
 	string(const string &otherString) {
-		length = otherString.length + END_CHAR;
-		text = new char[length];
+		length = otherString.length;
+		text = new char[length + END_CHAR];
 		text = AssociateCharacters(otherString.text, length);
 	}
 
