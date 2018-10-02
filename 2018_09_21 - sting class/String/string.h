@@ -1,6 +1,8 @@
 #ifndef _STRING
 #define _STING
 
+#define END_CHAR 1
+
 #include <stdio.h>
 
 typedef unsigned int uint;
@@ -8,6 +10,7 @@ typedef unsigned int uint;
 class string {
 private:
 	char* text;
+	//The number of characters in the word or sentence. We don't include '\0' in this number.
 	uint length;
 
 public:
@@ -15,19 +18,19 @@ public:
 	//CONSTRUCTORS--------------------
 
 	string() {
-		length = 1;
-		text = new char [length];
-		//text[0] = '\0';
+		length = 0;
+		text = new char [length + END_CHAR];
+		text[0] = '\0';
 	}
 
 	string(const char* otherText) {
 		length = CalculateLength(otherText);
-		text = new char[length];
+		text = new char[length + END_CHAR];
 		text = AssociateCharacters(otherText, length);
 	}
 
 	string(const string &otherString) {
-		length = otherString.length;
+		length = otherString.length + END_CHAR;
 		text = new char[length];
 		text = AssociateCharacters(otherString.text, length);
 	}
@@ -43,7 +46,7 @@ public:
 		else {
 			delete(text);
 			length = otherLength;
-			text = new char [otherLength];
+			text = new char [length + END_CHAR];
 			text = AssociateCharacters(otherText, length);
 		}
 		return *this;
@@ -56,7 +59,7 @@ public:
 		else {
 			delete(text);
 			length = otherString.length;
-			text = new char[length];
+			text = new char[length + END_CHAR];
 			text = AssociateCharacters(otherString.text, length);
 		}
 		return *this;
@@ -112,10 +115,12 @@ private:
 			otherLength = CalculateLength(otherText);
 		}
 		//- We associate each character
-		char* retText = new char[otherLength];
+		//INFO: We want to fill the array up to the penultimate position, as the last will be '\0'.
+		char* retText = new char[otherLength + END_CHAR];
 		for (int i = 0; i < otherLength; ++i) {
 			retText[i] = otherText[i];
 		}
+		retText[otherLength] = '\0';
 		return retText;
 	}
 
