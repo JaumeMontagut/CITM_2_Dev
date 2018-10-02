@@ -104,7 +104,7 @@ private:
 		return textLength;
 	}
 
-	//INFO: We allocate memory for the text of this instance
+	//We allocate memory for the text of this instance
 	void AllocateToThis(const uint &charactersInSentence){
 		length = charactersInSentence;
 		//INFO: We need to add + 1 because we'll have a character at the end, LAST_DIGIT('\0'), which indicates the end of the string
@@ -114,11 +114,9 @@ private:
 	//INFO: This function assumes you've already allocated memory for toText
 	//INFO: This function assumes that the text you want to copy from (fromText) and the one you want to copy to (toText) are of the same length
 	void AssociateCharacters(const char * fromText, char* toText, uint textLength = 0) {
-		//- We check if otherLength has not been set
 		if (textLength == 0) {
 			textLength = CalculateLength(fromText);
 		}
-		//- We associate each character
 		//INFO: We want to fill the array up to the penultimate position, as the last will be LAST_DIGIT('\0').
 		for (int i = 0; i < textLength; ++i) {
 			toText[i] = fromText[i];
