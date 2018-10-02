@@ -9,7 +9,12 @@ int main(){
 	stringA = stringB;
 	stringA = "text";
 
-	printf("StringC: %s", stringC);
+	char* stringD = new char[3];
+	stringD[0] = 'a';
+	stringD[1] = 'u';
+	stringD[2] = '\0';
+
+	printf("StringC: %s", stringD);
 
 	if (stringC == stringB) {
 		printf("Strings have the same content.\n");
