@@ -20,14 +20,12 @@ public:
 		text[0] = '\0';
 	}
 
-	string(const char* text) {
+	string(const char* otherText) {
 		//1.Allocate memory
-		length = CalculateLength(text);
-		this->text = new char[length];
+		length = CalculateLength(otherText);
+		text = new char[length];
 		//2.Associate each character
-		for (int i = 0; i < length; ++i) {
-			this->text[i] = text[i];
-		}
+		text = AssociateCharacters(otherText, length);
 	}
 
 	string(const string &otherString) {
@@ -36,28 +34,43 @@ public:
 		length = otherString.length;
 		text = new char[length];
 		//2.Associate each character
-		for (int i = 0; i < length; ++i) {
-			text[i] = otherString.text[i];
-		}
+		text = AssociateCharacters(otherString.text, length);
 	}
+
 
 	//OPERATORS-----------------------
 
 	string operator= (const char* otherText) {
 		//1. Check if the length is the same
-		if (length == CalculateLength(otherText)) {
+		uint otherLength = CalculateLength(otherText);
+		if (length == otherLength) {
 			//2. Simply change the characters
-
+			text = AssociateCharacters(otherText);
 		}
 		else {
 			//2. Delete
+			delete(text);
 			//3. Create new with the correct length
+			text = new char [otherLength];
 			//4. Change the characters
+			text = AssociateCharacters(otherText);
 		}
 	}
 
 	string operator= (const string &otherString) {
-
+		//1. Check if the length is the same
+		if (length == otherString.length) {
+			//2. Simply change the characters
+			text = AssociateCharacters(otherString.text, otherString.length);
+		}
+		else {
+			//2. Delete
+			delete(text);
+			//3. Create new with the correct length
+			text = new char[otherString.length];
+			//4. Change the characters
+			text = AssociateCharacters(otherString.text, otherString.length);
+		}
 	}
 
 	bool operator== (const char* otherText) {
@@ -88,16 +101,32 @@ public:
 		return true;
 	}
 
+
 	//METHODS-------------------------
 
 private:
-	inline uint CalculateLength(const char* text) {
+
+	uint CalculateLength(const char* text) {
 		uint textLength = 0;
 		while (text[textLength] != '\0') {
 			textLength++;
 		}
 		return textLength;
 	}
+
+	char* AssociateCharacters(const char * otherText, uint otherLength = 0) {
+		//We check if other length has not been set
+		if (otherLength == 0) {
+			otherLength = CalculateLength(otherText);
+		}
+		//We associate each character to a new char*
+		char* retText = new char[otherLength];
+		for (int i = 0; i < otherLength; ++i) {
+			retText[i] = otherText[i];
+		}
+		return retText;
+	}
+
 };
 
 #endif
