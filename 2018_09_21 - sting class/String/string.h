@@ -19,12 +19,16 @@ public:
 
 	string(const string &otherString) {
 		text = new char[strlen(otherString.text)];
-		strcpy_s(text, strlen(otherString.text), otherString.text);
+		for (int i = 0; i < strlen(otherString.text); ++i) {
+			text[i] = otherString.text[i];
+		}
 	}
 
 	string(const char* text) {
 		this->text = new char[strlen(text)];
-		strcpy_s(this->text, strlen(text), text);
+		for (int i = 0; i < strlen(text); ++i) {
+			this->text[i] = text[i];
+		}
 	}
 
 	//OPERATORS-----------------------
