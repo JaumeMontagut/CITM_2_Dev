@@ -1,6 +1,8 @@
 #ifndef _STRING
 #define _STING
 
+#include <stdio.h>
+
 typedef unsigned int uint;
 
 class string {
@@ -13,27 +15,20 @@ public:
 	//CONSTRUCTORS--------------------
 
 	string() {
-		//1.Allocate memory
 		length = 1;
 		text = new char [length];
-		//2.Associate each character
-		text[0] = '\0';
+		//text[0] = '\0';
 	}
 
 	string(const char* otherText) {
-		//1.Allocate memory
 		length = CalculateLength(otherText);
 		text = new char[length];
-		//2.Associate each character
 		text = AssociateCharacters(otherText, length);
 	}
 
 	string(const string &otherString) {
-		
-		//1.Allocate memory
 		length = otherString.length;
 		text = new char[length];
-		//2.Associate each character
 		text = AssociateCharacters(otherString.text, length);
 	}
 
@@ -41,44 +36,36 @@ public:
 	//OPERATORS-----------------------
 
 	string operator= (const char* otherText) {
-		//1. Check if the length is the same
 		uint otherLength = CalculateLength(otherText);
 		if (length == otherLength) {
-			//2. Simply change the characters
 			text = AssociateCharacters(otherText);
 		}
 		else {
-			//2. Delete
 			delete(text);
-			//3. Create new with the correct length
+			length = otherLength;
 			text = new char [otherLength];
-			//4. Change the characters
-			text = AssociateCharacters(otherText);
+			text = AssociateCharacters(otherText, length);
 		}
+		return *this;
 	}
 
 	string operator= (const string &otherString) {
-		//1. Check if the length is the same
 		if (length == otherString.length) {
-			//2. Simply change the characters
 			text = AssociateCharacters(otherString.text, otherString.length);
 		}
 		else {
-			//2. Delete
 			delete(text);
-			//3. Create new with the correct length
-			text = new char[otherString.length];
-			//4. Change the characters
-			text = AssociateCharacters(otherString.text, otherString.length);
+			length = otherString.length;
+			text = new char[length];
+			text = AssociateCharacters(otherString.text, length);
 		}
+		return *this;
 	}
 
 	bool operator== (const char* otherText) {
-		//1.Check if the length of the strings is the same
 		if (length != CalculateLength(otherText)) {
 			return false;
 		}
-		//2.Check if each character is the same
 		for (int i = 0; i < length; ++i) {
 			if (text[i] != otherText[i]) {
 				return false;
@@ -88,11 +75,9 @@ public:
 	}
 
 	bool operator== (const string &otherString) {
-		//1.Check if the length of the strings is the same
 		if (length != otherString.length) {
 			return false;
 		}
-		//2.Check if each character is the same
 		for (int i = 0; i < length; ++i) {
 			if (text[i] != otherString.text[i]) {
 				return false;
@@ -103,6 +88,13 @@ public:
 
 
 	//METHODS-------------------------
+
+	void print() {
+		for (int i = 0; i < length; ++i) {
+			printf_s("%c", text[i]);
+		}
+	}
+
 
 private:
 
@@ -115,11 +107,11 @@ private:
 	}
 
 	char* AssociateCharacters(const char * otherText, uint otherLength = 0) {
-		//We check if other length has not been set
+		//- We check if otherLength has not been set
 		if (otherLength == 0) {
 			otherLength = CalculateLength(otherText);
 		}
-		//We associate each character to a new char*
+		//- We associate each character
 		char* retText = new char[otherLength];
 		for (int i = 0; i < otherLength; ++i) {
 			retText[i] = otherText[i];

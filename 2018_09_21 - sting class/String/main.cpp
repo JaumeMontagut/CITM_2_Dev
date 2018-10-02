@@ -1,27 +1,29 @@
 #include "string.h"
-#include <iostream>
+#include <stdio.h>
 
 int main(){
 	string stringA;
 	string stringB("testContent");
 	string stringC(stringB);
 
-	//stringA = stringB;
-	//stringA = "text";
+	stringA = stringB;
+	stringA = "text";
+
+	printf("StringC: %s", stringC);
 
 	if (stringC == stringB) {
-		std::cout << "Strings have the same content.";
+		printf("Strings have the same content.\n");
 	}
 	else {
-		std::cout << "Strings have different content.";
+		printf("Strings have different content.\n");
 	}
 
-	//if (stringB == "testContent") {
-	//	std::cout << "Strings have the same content.";
-	//}
-	//else {
-	//	std::cout << "Strings have different content.";
-	//}
+	if (stringB == "testContent") {
+		printf("Strings have the same content.\n");
+	}
+	else {
+		printf("Strings have different content.\n");
+	}
 
-	system("pause");
+	getchar();
 }
