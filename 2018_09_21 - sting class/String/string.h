@@ -1,7 +1,6 @@
 #ifndef _STRING
 #define _STING
 
-#define END_CHAR 1
 #define LAST_DIGIT '\0'
 
 #include <stdio.h>
@@ -19,20 +18,17 @@ public:
 	//CONSTRUCTORS--------------------
 
 	string() {
-		length = 0;
-		text = new char [length + END_CHAR];
+		AllocateMemoryToThis(0);
 		text[0] = LAST_DIGIT;
 	}
 
 	string(const char* otherText) {
-		length = CalculateLength(otherText);
-		text = new char[length + END_CHAR];
+		AllocateMemoryToThis(CalculateLength(otherText));
 		AssociateCharacters(otherText, text, length);
 	}
 
 	string(const string &otherString) {
-		length = otherString.length;
-		text = new char[length + END_CHAR];
+		AllocateMemoryToThis(otherString.length);
 		AssociateCharacters(otherString.text, text, length);
 	}
 
@@ -46,8 +42,7 @@ public:
 		}
 		else {
 			delete(text);
-			length = otherLength;
-			text = new char [length + END_CHAR];
+			AllocateMemoryToThis(otherLength);
 			AssociateCharacters(otherText, text, length);
 		}
 		return *this;
@@ -59,8 +54,7 @@ public:
 		}
 		else {
 			delete(text);
-			length = otherString.length;
-			text = new char[length + END_CHAR];
+			AllocateMemoryToThis(otherString.length);
 			AssociateCharacters(otherString.text, text, length);
 		}
 		return *this;
@@ -110,7 +104,14 @@ private:
 		return textLength;
 	}
 
-	//INFO: This function assumes you've already allocated memory for it
+	//INFO: We allocate memory for the text of this instance
+	void AllocateMemoryToThis(const uint &charactersInSentence){
+		length = charactersInSentence;
+		//INFO: We need to add + 1 because we'll have a character at the end, LAST_DIGIT('\0'), which indicates the end of the string
+		text = new char[length + 1];
+	}
+
+	//INFO: This function assumes you've already allocated memory for toText
 	//INFO: This function assumes that the text you want to copy from (fromText) and the one you want to copy to (toText) are of the same length
 	void AssociateCharacters(const char * fromText, char* toText, uint textLength = 0) {
 		//- We check if otherLength has not been set
