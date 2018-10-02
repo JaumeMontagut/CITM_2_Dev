@@ -2,6 +2,7 @@
 #define _STING
 
 #define END_CHAR 1
+#define LAST_DIGIT '\0'
 
 #include <stdio.h>
 
@@ -10,7 +11,7 @@ typedef unsigned int uint;
 class string {
 private:
 	char* text;
-	//The number of characters in the word or sentence. We don't include '\0' in this number.
+	//The number of characters in the word or sentence. We don't include the last digit ('\0') in this number.
 	uint length;
 
 public:
@@ -20,7 +21,7 @@ public:
 	string() {
 		length = 0;
 		text = new char [length + END_CHAR];
-		text[0] = '\0';
+		text[0] = LAST_DIGIT;
 	}
 
 	string(const char* otherText) {
@@ -103,7 +104,7 @@ private:
 
 	uint CalculateLength(const char* text) {
 		uint textLength = 0;
-		while (text[textLength] != '\0') {
+		while (text[textLength] != LAST_DIGIT) {
 			textLength++;
 		}
 		return textLength;
@@ -120,7 +121,7 @@ private:
 		for (int i = 0; i < otherLength; ++i) {
 			retText[i] = otherText[i];
 		}
-		retText[otherLength] = '\0';
+		retText[otherLength] = LAST_DIGIT;
 		return retText;
 	}
 
