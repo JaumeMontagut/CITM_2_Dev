@@ -9,6 +9,7 @@ private:
 	uint length;
 
 public:
+
 	//CONSTRUCTORS--------------------
 
 	string() {
@@ -21,12 +22,7 @@ public:
 
 	string(const char* text) {
 		//1.Allocate memory
-		//  - Calculate the length of the sent string
-		length = 0;
-		while (text[length] != '\0') {
-			length++;
-		}
-		//  - Allocate memory
+		length = CalculateLength(text);
 		this->text = new char[length];
 		//2.Associate each character
 		for (int i = 0; i < length; ++i) {
@@ -39,7 +35,6 @@ public:
 		//1.Allocate memory
 		length = otherString.length;
 		text = new char[length];
-
 		//2.Associate each character
 		for (int i = 0; i < length; ++i) {
 			text[i] = otherString.text[i];
@@ -48,12 +43,35 @@ public:
 
 	//OPERATORS-----------------------
 
+	string operator= (const char* otherText) {
+		//1. Check if the length is the same
+		if (length == CalculateLength(otherText)) {
+			//2. Simply change the characters
+
+		}
+		else {
+			//2. Delete
+			//3. Create new with the correct length
+			//4. Change the characters
+		}
+	}
+
 	string operator= (const string &otherString) {
 
 	}
 
-	string operator= (const char* otherText) {
-
+	bool operator== (const char* otherText) {
+		//1.Check if the length of the strings is the same
+		if (length != CalculateLength(otherText)) {
+			return false;
+		}
+		//2.Check if each character is the same
+		for (int i = 0; i < length; ++i) {
+			if (text[i] != otherText[i]) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	bool operator== (const string &otherString) {
@@ -70,12 +88,16 @@ public:
 		return true;
 	}
 
-	bool operator== (const char* otherText) {
-
-	}
-
 	//METHODS-------------------------
-	//(section to add methods)
+
+private:
+	inline uint CalculateLength(const char* text) {
+		uint textLength = 0;
+		while (text[textLength] != '\0') {
+			textLength++;
+		}
+		return textLength;
+	}
 };
 
 #endif

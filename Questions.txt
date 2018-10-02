@@ -1,6 +1,20 @@
 Research
+
 - Floating point error
+
 Questions
+
 - How to pause game execution? (the compiler should help you avoid big errors)
+
 - Why is there a typedef uchar for unsigned char?
+
 - Why do we check for '\0' but in debbuging that does not appear as the last character of the string?
+
+- Should I also add the character '\0' at the end of the text property?
+
+- I want:
+	- Create a function in only one place (if i have to make changes i only want to change one)
+	- Avoid the time of calling a function (as if it was coded in all the places)
+- I'm thinking that there might be a way to tell the compiler to do just that. Inline might be the solution but i dont' understand it fully.
+- Done example: string class > CalculateLenght()
+- Something I would also like to make like that: string class > Associate values() (after calculating lenght in the constructor, it repeats in 2 instances of the code)

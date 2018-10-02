@@ -9,19 +9,19 @@ int main(){
 	//stringA = stringB;
 	//stringA = "text";
 
-	if (stringC == stringB) {
-		std::cout << "Strings have the same content.";
-	}
-	else {
-		std::cout << "Strings have different content.";
-	}
-
-	//if (stringA == "text") {
+	//if (stringC == stringB) {
 	//	std::cout << "Strings have the same content.";
 	//}
 	//else {
 	//	std::cout << "Strings have different content.";
 	//}
+
+	if (stringB == "testContent") {
+		std::cout << "Strings have the same content.";
+	}
+	else {
+		std::cout << "Strings have different content.";
+	}
 
 	system("pause");
 }
