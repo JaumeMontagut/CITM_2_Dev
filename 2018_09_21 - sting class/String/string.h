@@ -18,17 +18,17 @@ public:
 	//CONSTRUCTORS--------------------
 
 	string() {
-		AllocateMemoryToThis(0);
+		AllocateToThis(0);
 		text[0] = LAST_DIGIT;
 	}
 
 	string(const char* otherText) {
-		AllocateMemoryToThis(CalculateLength(otherText));
+		AllocateToThis(CalculateLength(otherText));
 		AssociateCharacters(otherText, text, length);
 	}
 
 	string(const string &otherString) {
-		AllocateMemoryToThis(otherString.length);
+		AllocateToThis(otherString.length);
 		AssociateCharacters(otherString.text, text, length);
 	}
 
@@ -42,7 +42,7 @@ public:
 		}
 		else {
 			delete(text);
-			AllocateMemoryToThis(otherLength);
+			AllocateToThis(otherLength);
 			AssociateCharacters(otherText, text, length);
 		}
 		return *this;
@@ -54,7 +54,7 @@ public:
 		}
 		else {
 			delete(text);
-			AllocateMemoryToThis(otherString.length);
+			AllocateToThis(otherString.length);
 			AssociateCharacters(otherString.text, text, length);
 		}
 		return *this;
@@ -105,7 +105,7 @@ private:
 	}
 
 	//INFO: We allocate memory for the text of this instance
-	void AllocateMemoryToThis(const uint &charactersInSentence){
+	void AllocateToThis(const uint &charactersInSentence){
 		length = charactersInSentence;
 		//INFO: We need to add + 1 because we'll have a character at the end, LAST_DIGIT('\0'), which indicates the end of the string
 		text = new char[length + 1];
@@ -114,7 +114,7 @@ private:
 	//INFO: This function assumes you've already allocated memory for toText
 	//INFO: This function assumes that the text you want to copy from (fromText) and the one you want to copy to (toText) are of the same length
 	void AssociateCharacters(const char * fromText, char* toText, uint textLength = 0) {
-		//- We check if otherLength has not been set
+		//- We check if textLength has not been set
 		if (textLength == 0) {
 			textLength = CalculateLength(fromText);
 		}
