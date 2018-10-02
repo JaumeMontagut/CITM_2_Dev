@@ -4,7 +4,7 @@
 int main(){
 	string stringA;
 	string stringB("testContent");
-	//string stringC(stringB);
+	string stringC(stringB);
 
 	//stringA = stringB;
 	//stringA = "text";
