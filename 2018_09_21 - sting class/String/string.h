@@ -1,6 +1,12 @@
 #ifndef _STRING
 #define _STING
 
+typedef unsigned int uint;
+
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
+
 class string {
 private:
 	char* text;
@@ -12,17 +18,13 @@ public:
 	}
 
 	string(const string &otherString) {
-		text = new char[sizeof(otherString.text)];
-		for (int i = 0; i < sizeof(otherString.text); i++) {
-			text[i] = otherString.text[i];
-		}
+		text = new char[strlen(otherString.text)];
+		strcpy_s(text, strlen(otherString.text), otherString.text);
 	}
 
 	string(const char* text) {
-		this->text = new char[sizeof(text)];
-		for (int i = 0; i < sizeof(text); i++) {
-			this->text[i] = text[i];
-		}
+		this->text = new char[strlen(text)];
+		strcpy_s(this->text, strlen(text), text);
 	}
 
 	//OPERATORS-----------------------
