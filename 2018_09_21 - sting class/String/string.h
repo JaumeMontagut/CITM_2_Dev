@@ -27,13 +27,13 @@ public:
 	string(const char* otherText) {
 		length = CalculateLength(otherText);
 		text = new char[length + END_CHAR];
-		text = AssociateCharacters(otherText, length);
+		AssociateCharacters(otherText, text, length);
 	}
 
 	string(const string &otherString) {
 		length = otherString.length;
 		text = new char[length + END_CHAR];
-		text = AssociateCharacters(otherString.text, length);
+		AssociateCharacters(otherString.text, text, length);
 	}
 
 
@@ -42,26 +42,26 @@ public:
 	string operator= (const char* otherText) {
 		uint otherLength = CalculateLength(otherText);
 		if (length == otherLength) {
-			text = AssociateCharacters(otherText);
+			AssociateCharacters(otherText, text, length);
 		}
 		else {
 			delete(text);
 			length = otherLength;
 			text = new char [length + END_CHAR];
-			text = AssociateCharacters(otherText, length);
+			AssociateCharacters(otherText, text, length);
 		}
 		return *this;
 	}
 
 	string operator= (const string &otherString) {
 		if (length == otherString.length) {
-			text = AssociateCharacters(otherString.text, otherString.length);
+			AssociateCharacters(otherString.text, text, length);
 		}
 		else {
 			delete(text);
 			length = otherString.length;
 			text = new char[length + END_CHAR];
-			text = AssociateCharacters(otherString.text, length);
+			AssociateCharacters(otherString.text, text, length);
 		}
 		return *this;
 	}
@@ -110,19 +110,19 @@ private:
 		return textLength;
 	}
 
-	char* AssociateCharacters(const char * otherText, uint otherLength = 0) {
+	//INFO: This function assumes you've already allocated memory for it
+	//INFO: This function assumes that the text you want to copy from (fromText) and the one you want to copy to (toText) are of the same length
+	void AssociateCharacters(const char * fromText, char* toText, uint textLength = 0) {
 		//- We check if otherLength has not been set
-		if (otherLength == 0) {
-			otherLength = CalculateLength(otherText);
+		if (textLength == 0) {
+			textLength = CalculateLength(fromText);
 		}
 		//- We associate each character
-		//INFO: We want to fill the array up to the penultimate position, as the last will be '\0'.
-		char* retText = new char[otherLength + END_CHAR];
-		for (int i = 0; i < otherLength; ++i) {
-			retText[i] = otherText[i];
+		//INFO: We want to fill the array up to the penultimate position, as the last will be LAST_DIGIT('\0').
+		for (int i = 0; i < textLength; ++i) {
+			toText[i] = fromText[i];
 		}
-		retText[otherLength] = LAST_DIGIT;
-		return retText;
+		toText[textLength] = LAST_DIGIT;
 	}
 
 };
