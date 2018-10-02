@@ -3,3 +3,4 @@ Research
 Questions
 - How to pause game execution? (the compiler should help you avoid big errors)
 - Why is there a typedef uchar for unsigned char?
+- Why do we check for '\0' but in debbuging that does not appear as the last character of the string?

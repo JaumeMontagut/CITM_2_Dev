@@ -12,6 +12,11 @@ public:
 	//CONSTRUCTORS--------------------
 
 	string() {
+		//1.Allocate memory
+		length = 1;
+		text = new char [length];
+		//2.Associate each character
+		text[0] = '\0';
 	}
 
 	string(const char* text) {
@@ -23,7 +28,6 @@ public:
 		}
 		//  - Allocate memory
 		this->text = new char[length];
-
 		//2.Associate each character
 		for (int i = 0; i < length; ++i) {
 			this->text[i] = text[i];
@@ -53,10 +57,11 @@ public:
 	}
 
 	bool operator== (const string &otherString) {
-		//1- Check if the length of the strings is the same
+		//1.Check if the length of the strings is the same
 		if (length != otherString.length) {
 			return false;
 		}
+		//2.Check if each character is the same
 		for (int i = 0; i < length; ++i) {
 			if (text[i] != otherString.text[i]) {
 				return false;
