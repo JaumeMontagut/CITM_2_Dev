@@ -1,5 +1,6 @@
 #include "string.h"
 #include <stdio.h>
+#include <iostream>
 
 int main() {
 	string stringA;
@@ -9,25 +10,26 @@ int main() {
 	stringA = stringB;
 	stringA = "text";
 
+	std::cout << "String" << stringB << std::endl;
 	printf_s("StringB: %s \n", stringB);//Only on x86
 	//printf_s("StringB: %s \n", stringB.GetText());//On x86 & x64
 
-	stringB.print();
-	printf("\n");
+	//stringB.print();
+	//printf("\n");
 
-	if (stringC == stringB) {
-		printf("Strings have the same content.\n");
-	}
-	else {
-		printf("Strings have different content.\n");
-	}
+	//if (stringC == stringB) {
+	//	printf("Strings have the same content.\n");
+	//}
+	//else {
+	//	printf("Strings have different content.\n");
+	//}
 
-	if (stringB == "testContent") {
-		printf("Strings have the same content.\n");
-	}
-	else {
-		printf("Strings have different content.\n");
-	}
+	//if (stringB == "testContent") {
+	//	printf("Strings have the same content.\n");
+	//}
+	//else {
+	//	printf("Strings have different content.\n");
+	//}
 
 	getchar();
 }

@@ -45,32 +45,32 @@ public:
 
 	//OPERATORS-----------------------
 
-	string operator= (const char* otherText) {
-		uint otherLength = CalculateLength(otherText);
-		if (length == otherLength) {
-			AssignCharacters(otherText, text, length);
-		}
-		else {
-			delete[] text;
-			AllocateToThis(otherLength);
-			AssignCharacters(otherText, text, length);
-		}
-		return *this;
-	}
+	//string operator= (const char* otherText) {
+	//	uint otherLength = CalculateLength(otherText);
+	//	if (length == otherLength) {
+	//		AssignCharacters(otherText, text, length);
+	//	}
+	//	else {
+	//		delete[] text;
+	//		AllocateToThis(otherLength);
+	//		AssignCharacters(otherText, text, length);
+	//	}
+	//	return *this;
+	//}
 
-	string operator= (const string &otherString) {
-		if (length == otherString.length) {
-			AssignCharacters(otherString.text, text, length);
-		}
-		else {
-			delete[] text;
-			AllocateToThis(otherString.length);
-			AssignCharacters(otherString.text, text, length);
-		}
-		return *this;
-	}
+	//string operator= (const string &otherString) {
+	//	if (length == otherString.length) {
+	//		AssignCharacters(otherString.text, text, length);
+	//	}
+	//	else {
+	//		delete[] text;
+	//		AllocateToThis(otherString.length);
+	//		AssignCharacters(otherString.text, text, length);
+	//	}
+	//	return *this;
+	//}
 
-	explicit operator const char * () {
+	operator const char * () {
 		return text;
 	}
 
