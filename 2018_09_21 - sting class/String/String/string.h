@@ -34,9 +34,13 @@ public:
 	}
 
 	~string() {
-		delete[] text;
-		text = nullptr;
-	 }
+		assert(text);
+		if (text == nullptr) {
+			delete[] text;
+			text = nullptr;
+			length = -1;
+		};
+	}
 
 
 	//OPERATORS-----------------------
@@ -64,6 +68,14 @@ public:
 			AssignCharacters(otherString.text, text, length);
 		}
 		return *this;
+	}
+
+	explicit operator const char * () {
+		return text;
+	}
+
+	string operator+= () {
+
 	}
 
 	bool operator== (const char* otherText) {
@@ -120,7 +132,7 @@ private:
 		return textLength;
 	}
 
-	void AllocateToThis(uint charactersInSentence) {
+	inline void AllocateToThis(uint charactersInSentence) {
 		length = charactersInSentence;
 		//INFO: We need to add + 1 because we'll have a character at the end, LAST_DIGIT('\0'), which indicates the end of the string
 		text = new char[length + 1];

@@ -9,8 +9,8 @@ int main() {
 	stringA = stringB;
 	stringA = "text";
 
-	//printf_s("StringB: %s \n", stringB);//Only on x86
-	//printf_s("StringB: %s \n", stringB.GetText());//On x86 & x64
+	printf_s("StringB: %s \n", stringB);//Only on x86
+	printf_s("StringB: %s \n", stringB.GetText());//On x86 & x64
 
 	stringB.print();
 	printf("\n");

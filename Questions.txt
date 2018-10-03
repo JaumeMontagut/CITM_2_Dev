@@ -1,7 +1,14 @@
 Solved
+
 - How to pause game execution? (the compiler should help you avoid big errors)
 #include <assert.h>
 assert(myCondition);
+
+- Why if we change to x64 it gives garbage string?
+Printf acceses any memory you tell them.
+Because the first variable in the class is the char* it starts reading until it finds a '/0'.
+In x64 ints take up twice the space so it prints some garbage values before.
+The correct way to do it would be to use a casting operator.
 
 Research
 
@@ -23,4 +30,3 @@ Questions
 - Something I would also like to make like that: string class > Associate values() (after calculating lenght in the constructor, it repeats in 2 instances of the code)
 - Why do you have the Alloc() and Clear() functions which are 2 and 1 lines respectively if it's going to add the time to call a function?
 
-- Why if we change to x64 it gives garbage string?
