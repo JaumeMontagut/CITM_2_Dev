@@ -32,15 +32,20 @@ void j1Map::Draw()
 		return;
 
 	// TODO 5: Prepare the loop to draw all tilesets + Blit
-	p2List_item<TileSet*>* firstTileset = data.tilesets.start;
-	p2List_item<MapLayer*>* firstLayer = data.mapLayers.start;
-	for (int column = 0; column < firstLayer->data->columns; ++column) {
-		for (int row = 0; row < firstLayer->data->rows; ++row) {
-			uint gid = firstLayer->data->tileArray[GetArrayPos(column, row)];
-			if (gid != 0){
-				iPoint worldPos = MapToWorld(column, row);
-				App->render->Blit(firstTileset->data->texture, worldPos.x, worldPos.y, &firstTileset->data->GetTileRect(gid));
+	
+	
+	for (p2List_item<TileSet*>* tilesetIterator = data.tilesets.start; tilesetIterator != NULL; tilesetIterator = tilesetIterator->next) {
+		for (p2List_item<MapLayer*>* layerIterator = data.mapLayers.start; layerIterator != NULL; layerIterator =layerIterator->next) {
+			for (int column = 0; column < layerIterator->data->columns; ++column) {
+				for (int row = 0; row < layerIterator->data->rows; ++row) {
+					uint gid = layerIterator->data->tileArray[GetArrayPos(column, row)];
+					if (gid != 0) {
+						iPoint worldPos = MapToWorld(column, row);
+						App->render->Blit(tilesetIterator->data->texture, worldPos.x, worldPos.y, &tilesetIterator->data->GetTileRect(gid));
+					}
+				}
 			}
+
 		}
 	}
 
