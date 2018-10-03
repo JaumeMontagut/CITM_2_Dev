@@ -19,5 +19,3 @@ Questions
 - Done example: string class > CalculateLenght()
 - Something I would also like to make like that: string class > Associate values() (after calculating lenght in the constructor, it repeats in 2 instances of the code)
 - Why do you have the Alloc() and Clear() functions which are 2 and 1 lines respectively if it's going to add the time to call a function?
-
-- Why can't I use the AllocateString() method? (very weird error, see commit where the function is made)

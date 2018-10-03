@@ -91,6 +91,10 @@ public:
 		printf("%s", text);
 	}
 
+	uint GetAllocatedMemory(const string& string)const {
+		return string.length + 1;
+	}
+
 
 private:
 
