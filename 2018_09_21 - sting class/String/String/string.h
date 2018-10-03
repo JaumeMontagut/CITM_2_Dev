@@ -4,6 +4,7 @@
 #define LAST_DIGIT '\0'
 
 #include <stdio.h>
+#include <assert.h>
 
 typedef unsigned int uint;
 
@@ -18,19 +19,24 @@ public:
 	//CONSTRUCTORS--------------------
 
 	string() {
-		AllocateString(*this, 0);
+		AllocateToThis(0);
 		text[0] = LAST_DIGIT;
 	}
 
 	string(const char* otherText) {
-		AllocateString(*this, CalculateLength(otherText));
+		AllocateToThis(CalculateLength(otherText));
 		AssignCharacters(otherText, text, length);
 	}
 
 	string(const string &otherString) {
-		AllocateString(*this, otherString.length);
+		AllocateToThis(otherString.length);
 		AssignCharacters(otherString.text, text, length);
 	}
+
+	~string() {
+		delete[] text;
+		text = nullptr;
+	 }
 
 
 	//OPERATORS-----------------------
@@ -41,8 +47,8 @@ public:
 			AssignCharacters(otherText, text, length);
 		}
 		else {
-			delete(text);
-			AllocateString(*this, otherLength);
+			delete[] text;
+			AllocateToThis(otherLength);
 			AssignCharacters(otherText, text, length);
 		}
 		return *this;
@@ -53,8 +59,8 @@ public:
 			AssignCharacters(otherString.text, text, length);
 		}
 		else {
-			delete(text);
-			AllocateString(*this, otherString.length);
+			delete[] text;
+			AllocateToThis(otherString.length);
 			AssignCharacters(otherString.text, text, length);
 		}
 		return *this;
@@ -87,6 +93,10 @@ public:
 
 	//METHODS-------------------------
 
+	char * GetText() {
+		return text;
+	}
+
 	void print() const {
 		printf("%s", text);
 	}
@@ -98,7 +108,11 @@ public:
 
 private:
 
-	uint CalculateLength(const char* text) {
+	//INFO: Returns -1 when entering invalid memory
+	int CalculateLength(const char* text) {
+		assert(text);
+		if (text == nullptr) { return -1; }
+
 		uint textLength = 0;
 		while (text[textLength] != LAST_DIGIT) {
 			textLength++;
@@ -106,11 +120,10 @@ private:
 		return textLength;
 	}
 
-	//We allocate memory for the text of this instance
-	void AllocateString(string& string, const uint &charactersInSentence) {
-		string.length = charactersInSentence;
+	void AllocateToThis(uint charactersInSentence) {
+		length = charactersInSentence;
 		//INFO: We need to add + 1 because we'll have a character at the end, LAST_DIGIT('\0'), which indicates the end of the string
-		string.text = new char[string.length + 1];
+		text = new char[length + 1];
 	}
 
 	//INFO: This function assumes you've already allocated memory for toText

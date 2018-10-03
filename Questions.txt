@@ -1,10 +1,13 @@
+Solved
+- How to pause game execution? (the compiler should help you avoid big errors)
+#include <assert.h>
+assert(myCondition);
+
 Research
 
 - Floating point error
 
 Questions
-
-- How to pause game execution? (the compiler should help you avoid big errors)
 
 - Why is there a typedef uchar for unsigned char?
 
@@ -19,3 +22,5 @@ Questions
 - Done example: string class > CalculateLenght()
 - Something I would also like to make like that: string class > Associate values() (after calculating lenght in the constructor, it repeats in 2 instances of the code)
 - Why do you have the Alloc() and Clear() functions which are 2 and 1 lines respectively if it's going to add the time to call a function?
+
+- Why if we change to x64 it gives garbage string?
