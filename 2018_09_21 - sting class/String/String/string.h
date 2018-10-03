@@ -10,7 +10,7 @@ typedef unsigned int uint;
 class string {
 private:
 	char* text = nullptr;
-	//The number of characters in the word or sentence. We don't include the last digit ('\0') in this number.
+	//The number of characters in text. We don't include the last digit ('\0') in this number.
 	int length = -1;
 
 public:
@@ -88,9 +88,7 @@ public:
 	//METHODS-------------------------
 
 	void print() {
-		for (int i = 0; i < length; ++i) {
-			printf_s("%c", text[i]);
-		}
+		printf("%s", text);
 	}
 
 

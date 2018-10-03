@@ -10,6 +10,7 @@ int main() {
 	stringA = "text";
 
 	printf("StringB: %s \n", stringB);
+	stringB.print();
 
 	if (stringC == stringB) {
 		printf("Strings have the same content.\n");
