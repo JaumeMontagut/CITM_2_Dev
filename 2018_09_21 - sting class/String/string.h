@@ -9,9 +9,9 @@ typedef unsigned int uint;
 
 class string {
 private:
-	char* text;
+	char* text = nullptr;
 	//The number of characters in the word or sentence. We don't include the last digit ('\0') in this number.
-	uint length;
+	int length = -1;
 
 public:
 
@@ -24,12 +24,12 @@ public:
 
 	string(const char* otherText) {
 		AllocateToThis(CalculateLength(otherText));
-		AssociateCharacters(otherText, text, length);
+		AssignCharacters(otherText, text, length);
 	}
 
 	string(const string &otherString) {
 		AllocateToThis(otherString.length);
-		AssociateCharacters(otherString.text, text, length);
+		AssignCharacters(otherString.text, text, length);
 	}
 
 
@@ -38,24 +38,24 @@ public:
 	string operator= (const char* otherText) {
 		uint otherLength = CalculateLength(otherText);
 		if (length == otherLength) {
-			AssociateCharacters(otherText, text, length);
+			AssignCharacters(otherText, text, length);
 		}
 		else {
 			delete(text);
 			AllocateToThis(otherLength);
-			AssociateCharacters(otherText, text, length);
+			AssignCharacters(otherText, text, length);
 		}
 		return *this;
 	}
 
 	string operator= (const string &otherString) {
 		if (length == otherString.length) {
-			AssociateCharacters(otherString.text, text, length);
+			AssignCharacters(otherString.text, text, length);
 		}
 		else {
 			delete(text);
 			AllocateToThis(otherString.length);
-			AssociateCharacters(otherString.text, text, length);
+			AssignCharacters(otherString.text, text, length);
 		}
 		return *this;
 	}
@@ -113,8 +113,8 @@ private:
 
 	//INFO: This function assumes you've already allocated memory for toText
 	//INFO: This function assumes that the text you want to copy from (fromText) and the one you want to copy to (toText) are of the same length
-	void AssociateCharacters(const char * fromText, char* toText, uint textLength = 0) {
-		if (textLength == 0) {
+	void AssignCharacters(const char * fromText, char* toText, int textLength = -1) {
+		if (textLength == -1) {
 			textLength = CalculateLength(fromText);
 		}
 		//INFO: We want to fill the array up to the penultimate position, as the last will be LAST_DIGIT('\0').
