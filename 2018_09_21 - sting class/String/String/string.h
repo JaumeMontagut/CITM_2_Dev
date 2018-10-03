@@ -74,9 +74,9 @@ public:
 		return text;
 	}
 
-	string operator+= () {
+	//string operator+= () {
 
-	}
+	//}
 
 	bool operator== (const char* otherText) {
 		if (length != CalculateLength(otherText)) {
