@@ -1,7 +1,7 @@
 #include "string.h"
 #include <stdio.h>
 
-int main(){
+int main() {
 	string stringA;
 	string stringB("testContent");
 	string stringC(stringB);

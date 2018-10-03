@@ -105,7 +105,7 @@ private:
 	}
 
 	//We allocate memory for the text of this instance
-	void AllocateToThis(const uint &charactersInSentence){
+	void AllocateToThis(const uint &charactersInSentence) {
 		length = charactersInSentence;
 		//INFO: We need to add + 1 because we'll have a character at the end, LAST_DIGIT('\0'), which indicates the end of the string
 		text = new char[length + 1];
