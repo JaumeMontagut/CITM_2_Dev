@@ -41,21 +41,18 @@ void j1Map::Draw()
 				iPoint worldPos = MapToWorld(i, j);
 				App->render->Blit(firstTileset->data->texture, worldPos.x, worldPos.y, &firstTileset->data->GetTileRect(gid));
 			}
-			
 		}
 	}
 
 	// TODO 9: Complete the draw function
 }
 
-iPoint j1Map::MapToWorld(int x, int y) const
+iPoint j1Map::MapToWorld(int column, int row) const
 {
-	iPoint ret;
-
-	ret.x = x * data.tile_width;
-	ret.y = y * data.tile_height;
-
-	return ret;
+	iPoint retVec;
+	retVec.x = column * data.tile_width;
+	retVec.y = row * data.tile_height;
+	return retVec;
 }
 
 SDL_Rect TileSet::GetTileRect(int id) const
