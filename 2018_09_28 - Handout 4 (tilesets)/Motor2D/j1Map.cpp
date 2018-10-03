@@ -34,11 +34,11 @@ void j1Map::Draw()
 	// TODO 5: Prepare the loop to draw all tilesets + Blit
 	p2List_item<TileSet*>* firstTileset = data.tilesets.start;
 	p2List_item<MapLayer*>* firstLayer = data.mapLayers.start;
-	for (int i = 0; i < firstLayer->data->columns; ++i) {
-		for (int j = 0; j < firstLayer->data->rows; ++j) {
-			uint gid = firstLayer->data->tileArray[GetArrayPos(i, j)];
+	for (int column = 0; column < firstLayer->data->columns; ++column) {
+		for (int row = 0; row < firstLayer->data->rows; ++row) {
+			uint gid = firstLayer->data->tileArray[GetArrayPos(column, row)];
 			if (gid != 0){
-				iPoint worldPos = MapToWorld(i, j);
+				iPoint worldPos = MapToWorld(column, row);
 				App->render->Blit(firstTileset->data->texture, worldPos.x, worldPos.y, &firstTileset->data->GetTileRect(gid));
 			}
 		}
@@ -347,6 +347,6 @@ bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 // ----------------------------------------------------
 
 // TODO 6: Short function to get the value of x,y
-inline uint j1Map::GetArrayPos(int x, int y) const {
-	return(y * data.columns + x);
+inline uint j1Map::GetArrayPos(int column, int row) const {
+	return(row * data.columns + column);
 }
