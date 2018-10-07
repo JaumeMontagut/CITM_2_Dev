@@ -56,6 +56,7 @@ public:
 			AssignCharacters(otherText, text, length);
 		}
 		return *this;
+		<<<<<< < HEAD
 	}
 
 	string operator= (const string &otherString) {
@@ -74,17 +75,31 @@ public:
 	//	return text;
 	//}
 
-	operator string () {
-		return text;
-	}
-
-	char* operator%s() {
-		return text;
-	}
-
-	//string operator+= () {
-
+	//operator string () {
+	//	return text;
 	//}
+
+	//char* operator%s() {
+	//	return text;
+	//}
+
+	string operator= (const string &otherString) {
+		if (length == otherString.length) {
+			AssignCharacters(otherString.text, text, length);
+		}
+		else {
+			delete[] text;
+			AllocateToThis(otherString.length);
+			AssignCharacters(otherString.text, text, length);
+		}
+		return *this;
+	}
+
+	string operator+= (const char* otherText) {
+		delete[] text;
+		AllocateToThis(length + CalculateLength(otherText));
+		AssignCharacters(, text, length);
+	}
 
 	bool operator== (const char* otherText) {
 		if (length != CalculateLength(otherText)) {
@@ -157,6 +172,17 @@ private:
 			toText[i] = fromText[i];
 		}
 		toText[textLength] = LAST_DIGIT;
+	}
+
+	void Concatenate(const char* text1, int length1, const char* text2, int length2) {
+		int i = 0;
+		for (; i < length1; ++i) {
+			text[i] = text1[i];
+		}
+		for (; i < length1 + length2; ++i) {
+			text[i] = text2[i - length1];
+		}
+		text[length1 + length2] = LAST_DIGIT;
 	}
 
 };
