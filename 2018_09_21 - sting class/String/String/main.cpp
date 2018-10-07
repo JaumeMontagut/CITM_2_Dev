@@ -10,9 +10,9 @@ int main() {
 	stringA = stringB;
 	stringA = "text";
 
-	std::cout << "String" << stringB << std::endl;
-	printf(stringB);
-	//printf_s("StringB: %s \n", stringB);//Only on x86
+	//std::cout << "String" << stringB << std::endl;
+	//printf(stringB);
+	printf_s("StringB: %s \n", stringB);//Only on x86
 	//printf_s("StringB: %s \n", stringB.GetText());//On x86 & x64
 
 	//stringB.print();
