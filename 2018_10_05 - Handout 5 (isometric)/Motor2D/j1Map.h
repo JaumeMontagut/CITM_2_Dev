@@ -7,12 +7,15 @@
 #include "j1Module.h"
 
 // ----------------------------------------------------
+//INFO:
+//- Width & Height are always calculated in pixels
+//- Columns & Rows are always calculated in number of tiles
 struct MapLayer
 {
-	p2SString	name;
-	int			columns;
-	int			rows;
-	uint*		tileArray;
+	p2SString name;
+	uint columns = 0u;
+	uint rows = 0u;
+	uint* tileArray = nullptr;
 
 	MapLayer() : tileArray(NULL)
 	{}
@@ -23,7 +26,7 @@ struct MapLayer
 	}
 
 	// TODO 6 (old): Short function to get the value of x,y
-	inline uint GetArrayPos(int row, int column) const
+	inline uint GetArrayPos(int column, int row) const
 	{
 		return(row * columns + column);
 	}
@@ -59,8 +62,8 @@ enum class MapTypes
 // ----------------------------------------------------
 struct MapData
 {
-	int					width;
-	int					height;
+	int					columns;
+	int					rows;
 	int					tile_width;
 	int					tile_height;
 	SDL_Color			background_color;

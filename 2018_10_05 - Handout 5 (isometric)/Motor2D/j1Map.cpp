@@ -86,8 +86,8 @@ iPoint j1Map::WorldToMap(int x, int y) const
 		retVec.y = y / data.tile_height;
 		break;
 	case MapTypes::MAPTYPE_ISOMETRIC:
-		retVec.x = ((x * 2) / data.tile_width) + y;
-		retVec.y = ((x * 2) / data.tile_height) - y;
+		retVec.y = y / data.tile_height - x / data.tile_width;
+		retVec.x = (2 * x) / data.tile_width + retVec.y;
 		break;
 	default:
 		LOG("ERROR: Map type not set.");
@@ -196,7 +196,7 @@ bool j1Map::Load(const char* file_name)
 	if(ret == true)
 	{
 		LOG("Successfully parsed map XML file: %s", file_name);
-		LOG("width: %d height: %d", data.width, data.height);
+		LOG("width: %d height: %d", data.columns, data.rows);
 		LOG("tile_width: %d tile_height: %d", data.tile_width, data.tile_height);
 
 		p2List_item<TileSet*>* item = data.tilesets.start;
@@ -239,8 +239,8 @@ bool j1Map::LoadMap()
 	}
 	else
 	{
-		data.width = map.attribute("width").as_int();
-		data.height = map.attribute("height").as_int();
+		data.columns = map.attribute("width").as_int();
+		data.rows = map.attribute("height").as_int();
 		data.tile_width = map.attribute("tilewidth").as_int();
 		data.tile_height = map.attribute("tileheight").as_int();
 		p2SString bg_color(map.attribute("backgroundcolor").as_string());
