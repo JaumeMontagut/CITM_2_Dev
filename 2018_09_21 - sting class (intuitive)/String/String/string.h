@@ -5,12 +5,15 @@
 
 #include <stdio.h>
 #include <assert.h>
+#include <stdlib.h>
 
 typedef unsigned int uint;
 
 class string {
-private:
+public:
 	char* text = nullptr;
+
+private:
 	//The number of characters in text. We don't include the last digit ('\0') in this number.
 	int length = -1;
 
@@ -56,49 +59,16 @@ public:
 			AssignCharacters(otherText, text, length);
 		}
 		return *this;
-		<<<<<< < HEAD
 	}
 
-	string operator= (const string &otherString) {
-		if (length == otherString.length) {
-			AssignCharacters(otherString.text, text, length);
-		}
-		else {
-			delete[] text;
-			AllocateToThis(otherString.length);
-			AssignCharacters(otherString.text, text, length);
-		}
-		return *this;
-	}
-
-	//operator char * () {
-	//	return text;
-	//}
-
-	//operator string () {
-	//	return text;
-	//}
-
-	//char* operator%s() {
-	//	return text;
-	//}
-
-	string operator= (const string &otherString) {
-		if (length == otherString.length) {
-			AssignCharacters(otherString.text, text, length);
-		}
-		else {
-			delete[] text;
-			AllocateToThis(otherString.length);
-			AssignCharacters(otherString.text, text, length);
-		}
-		return *this;
+	operator char * () {
+		return text;
 	}
 
 	string operator+= (const char* otherText) {
 		delete[] text;
 		AllocateToThis(length + CalculateLength(otherText));
-		AssignCharacters(, text, length);
+		AssignCharacters(otherText, text, length);
 	}
 
 	bool operator== (const char* otherText) {
@@ -113,19 +83,6 @@ public:
 		return true;
 	}
 
-	bool operator== (const string &otherString) const {
-		if (length != otherString.length) {
-			return false;
-		}
-		for (int i = 0; i < length; ++i) {
-			if (text[i] != otherString.text[i]) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-
 	//METHODS-------------------------
 
 	char * GetText() {
@@ -139,7 +96,6 @@ public:
 	uint GetAllocatedMemory(const string& string)const {
 		return string.length + 1;
 	}
-
 
 private:
 
@@ -186,5 +142,41 @@ private:
 	}
 
 };
+
+
+//Printf overload
+//http://www.gnu.org/software/libc/manual/html_node/Customizing-Printf.html
+//http://www.gnu.org/software/libc/manual/html_node/Printf-Extension-Example.html#Printf-Extension-Example
+
+int print_widget(FILE *stream, const struct printf_info *info, const void *const *args)
+{
+	const string *s;
+	char *buffer;
+	int len;
+
+	/* Format the output into a string. */
+	s = *((const string **)(args[0]));
+	len = asprintf(&buffer, "<Widget %p: %s>", s, s->text);
+	if (len == -1)
+		return -1;
+
+	/* Pad to the minimum field width and print to the stream. */
+	len = fprintf(stream, "%*s", (info->left ? -info->width : info->width), buffer);
+
+	/* Clean up and return. */
+	free(buffer);
+	return len;
+}
+
+
+int print_widget_arginfo(const struct printf_info *info, size_t n,
+	int *argtypes)
+{
+	/* We always take exactly one argument and this is a pointer to the
+	structure.. */
+	if (n > 0)
+		argtypes[0] = PA_POINTER;
+	return 1;
+}
 
 #endif
