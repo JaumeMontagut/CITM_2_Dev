@@ -100,9 +100,14 @@ bool j1Map::IsWalkable(int x, int y) const
 {
 	// TODO 3: return true only if x and y are within map limits
 	// and the tile is walkable (tile id 0 in the navigation layer)
-	
-	MapLayer * layer = data.layers.start->next->data;//INFO: Navigation layer is the second one on the map
-	return (x >= 0 && x < data.width && y >= 0 && y < data.height && layer->data[layer->Get(x, y)] != 0);
+
+	p2List_item <MapLayer *>* navigationLayer;
+	for (navigationLayer = data.layers.start; navigationLayer; navigationLayer = navigationLayer->next) {
+		if (navigationLayer->data->properties.Get("Navigation") == 1) {
+			break;
+		}
+	}
+	return (x >= 0 && x < data.width && y >= 0 && y < data.height && navigationLayer->data->Get(x, y) == 0);
 }
 
 void j1Map::Draw()

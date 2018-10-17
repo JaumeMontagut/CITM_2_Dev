@@ -9,9 +9,9 @@
 
 enum class dir : unsigned int {
 	north,
-	west,
-	south,
 	east,
+	south,
+	west,
 	max
 };
 
