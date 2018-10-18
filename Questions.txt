@@ -1,14 +1,25 @@
 Solved
 
 - How to pause game execution? (the compiler should help you avoid big errors)
-#include <assert.h>
-assert(myCondition);
+	#include <assert.h>
+	assert(myCondition);
 
 - Why if we change to x64 it gives garbage string?
-Printf acceses any memory you tell them.
-Because the first variable in the class is the char* it starts reading until it finds a '/0'.
-In x64 ints take up twice the space so it prints some garbage values before.
-The correct way to do it would be to use a casting operator.
+	Printf acceses any memory you tell them.
+	Because the first variable in the class is the char* it starts reading until it finds a '/0'.
+	In x64 ints take up twice the space so it prints some garbage values before.
+	The correct way to do it would be to use a casting operator.
+
+- I want:
+1. Create a function in only one place (if i have to make changes i only want to change one)
+2. Avoid the time of calling a function (as if it was coded in all the places)
+- I'm thinking that there might be a way to tell the compiler to do just that. Inline might be the solution but i dont' understand it fully.
+- Done example: string class > CalculateLenght()
+- Something I would also like to make like that: string class > Associate values() (after calculating lenght in the constructor, it repeats in 2 instances of the code)
+- Why do you have the Alloc() and Clear() functions which are 2 and 1 lines respectively if it's going to add the time to call a function?
+	- Inline is the answer
+	- Inline copies everything in the function to each place where it is called, thus avoiding the time it takes to call the function.
+	- However, that also means that the ".exe" is going to increase in size, and the .exe is loaded fully into memory when the program is executed, occuping a lot of the RAM's space.
 
 Research
 
@@ -20,13 +31,8 @@ Questions
 
 - Why do we check for '\0' but in debbuging that does not appear as the last character of the string?
 
-- Should I also add the character '\0' at the end of the text property?
+- Why in update you pass a float parameter called dt?
 
-- I want:
-	- Create a function in only one place (if i have to make changes i only want to change one)
-	- Avoid the time of calling a function (as if it was coded in all the places)
-- I'm thinking that there might be a way to tell the compiler to do just that. Inline might be the solution but i dont' understand it fully.
-- Done example: string class > CalculateLenght()
-- Something I would also like to make like that: string class > Associate values() (after calculating lenght in the constructor, it repeats in 2 instances of the code)
-- Why do you have the Alloc() and Clear() functions which are 2 and 1 lines respectively if it's going to add the time to call a function?
+- What does j1 mean?
+
 
