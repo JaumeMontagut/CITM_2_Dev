@@ -16,6 +16,12 @@ enum class dir : unsigned int {
 };
 
 // ----------------------------------------------------
+
+struct Node {
+	iPoint value;
+	Node * prevNode;
+};
+
 struct Properties
 {
 	struct Property
@@ -160,6 +166,8 @@ private:
 	/// BFS
 	p2Queue<iPoint>		frontier;
 	p2List<iPoint>		visited;
+	p2List<Node>		path;
+	iPoint targetNode;
 };
 
 #endif // __j1MAP_H__

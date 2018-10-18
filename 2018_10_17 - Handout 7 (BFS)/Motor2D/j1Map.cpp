@@ -31,8 +31,13 @@ void j1Map::ResetBFS()
 {
 	frontier.Clear();
 	visited.clear();
+	path.clear();
 	frontier.Push(iPoint(19, 4));
 	visited.add(iPoint(19, 4));
+	Node firstNode;
+	firstNode.value = iPoint(19, 4);
+	firstNode.prevNode = nullptr;
+	targetNode = iPoint(13, 18);
 }
 
 void j1Map::PropagateBFS()
@@ -50,14 +55,28 @@ void j1Map::PropagateBFS()
 		neighbourNode[(uint)dir::south] = iPoint(currNode.x, currNode.y - 1);
 		neighbourNode[(uint)dir::east] = iPoint(currNode.x + 1, currNode.y);
 		neighbourNode[(uint)dir::west] = iPoint(currNode.x - 1, currNode.y);
-	}
 
-	// TODO 2: For each neighbor, if not visited, add it
-	// to the frontier queue and visited list
-	for (uint i = 0; i < (uint)dir::max; ++i) {
-		if (visited.find(neighbourNode[i]) == -1 && IsWalkable(neighbourNode[i].x, neighbourNode[i].y)) {
-			frontier.Push(neighbourNode[i]);
-			visited.add(neighbourNode[i]);
+		// TODO 2: For each neighbor, if not visited, add it
+		// to the frontier queue and visited list
+		for (uint i = 0; i < (uint)dir::max; ++i) {
+			if (visited.find(neighbourNode[i]) == -1 && IsWalkable(neighbourNode[i].x, neighbourNode[i].y)) {
+				//Add the node to the different lists / queues
+				frontier.Push(neighbourNode[i]);
+				visited.add(neighbourNode[i]);
+				Node node;
+				node.value = neighbourNode[i];
+				for (p2List_item<Node>* prevNode = path.start; prevNode; prevNode = prevNode->next) {
+					if (prevNode->data.value == currNode) {
+						node.prevNode = &prevNode->data;
+						break;
+					}
+				}
+				//Check if it has reached the target destination
+				if (neighbourNode[i] == targetNode) {
+					//Return the path and stop the pathfinding algorithm with a result of success
+					break;
+				}
+			}
 		}
 	}
 }
