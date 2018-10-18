@@ -19,7 +19,8 @@ enum class dir : unsigned int {
 
 struct Node {
 	iPoint value;
-	Node * prevNode;
+	iPoint prevNode;
+	//To be a more complete "tree-like" structure it could also have a list of pointer to the childs, not just to the parent
 };
 
 struct Properties
