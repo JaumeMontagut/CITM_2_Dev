@@ -36,8 +36,9 @@ void j1Map::ResetBFS()
 	Node startNode;
 	startNode.point = iPoint(19, 4);
 	startNode.prevNode = nullptr;
-	p2List_item<Node> * startNodePtr = path.add(startNode);
-	frontier.Push(&startNodePtr->data);
+
+	Node * startNodePtr = &path.add(startNode)->data;
+	frontier.Push(startNodePtr);
 	visited.add(startNode.point);
 
 	targetNode = iPoint(13, 18);
@@ -69,8 +70,9 @@ void j1Map::PropagateBFS()
 				Node node;
 				node.point = neighbourNode[i].point;
 				node.prevNode = currNode;
-				p2List_item<Node> * nodePtr = path.add(node);
-				frontier.Push(&nodePtr->data);
+
+				Node * nodePtr = &path.add(node)->data;
+				frontier.Push(nodePtr);
 				visited.add(neighbourNode[i].point);
 				if (neighbourNode[i].point == targetNode) {
 					//Return the path and stop the pathfinding algorithm with a result of success
