@@ -36,10 +36,10 @@ void j1Map::ResetBFS()
 	Node startNode;
 	startNode.value = iPoint(19, 4);
 	startNode.prevNode = nullptr;
-
-	frontier.Push(startNode);
+	p2List_item<Node> * startNodePtr = path.add(startNode);
+	frontier.Push(&startNodePtr->data);
 	visited.add(startNode.value);
-	path.add(startNode);
+
 
 	targetNode = iPoint(13, 18);
 }
@@ -50,7 +50,7 @@ void j1Map::PropagateBFS()
 		return;
 	}
 
-	Node currNode;
+	Node *currNode;
 	Node neighbourNode[(uint)dir::max];
 
 	// TODO 1: If frontier queue contains elements
@@ -58,30 +58,21 @@ void j1Map::PropagateBFS()
 	if (frontier.Count() != 0) {
 		frontier.Pop(currNode);
 
-		neighbourNode[(uint)dir::north].value = iPoint(currNode.value.x, currNode.value.y + 1);
-		neighbourNode[(uint)dir::south].value = iPoint(currNode.value.x, currNode.value.y - 1);
-		neighbourNode[(uint)dir::east].value  = iPoint(currNode.value.x + 1, currNode.value.y);
-		neighbourNode[(uint)dir::west].value  = iPoint(currNode.value.x - 1, currNode.value.y);
-
-		//Find the parent node in the path list
-		p2List_item<Node>* nodeIterator;
-		for (nodeIterator = path.start; nodeIterator; nodeIterator = nodeIterator->next) {
-			if (nodeIterator->data.value == currNode.value) {
-				break;
-			}
-		}
-		//TODO: Maybe instead of searching in all the list of path, i could simply have frontier be a list of pointers to path
+		neighbourNode[(uint)dir::north].value = iPoint(currNode->value.x, currNode->value.y + 1);
+		neighbourNode[(uint)dir::south].value = iPoint(currNode->value.x, currNode->value.y - 1);
+		neighbourNode[(uint)dir::east].value  = iPoint(currNode->value.x + 1, currNode->value.y);
+		neighbourNode[(uint)dir::west].value  = iPoint(currNode->value.x - 1, currNode->value.y);
 
 		// TODO 2: For each neighbor, if not visited, add it
 		// to the frontier queue and visited list
 		for (uint i = 0; i < (uint)dir::max; ++i) {
 			if (visited.find(neighbourNode[i].value) == -1 && IsWalkable(neighbourNode[i].value.x, neighbourNode[i].value.y)) {
-				frontier.Push(neighbourNode[i]);
-				visited.add(neighbourNode[i].value);
 				Node node;
 				node.value = neighbourNode[i].value;
-				node.prevNode = &nodeIterator->data;
-				path.add(node);
+				node.prevNode = currNode;
+				p2List_item<Node> * nodePtr = path.add(node);
+				frontier.Push(&neighbourNode[i]);
+				visited.add(neighbourNode[i].value);
 				if (neighbourNode[i].value == targetNode) {
 					//Return the path and stop the pathfinding algorithm with a result of success
 					LOG("Finished pathfinding with a result of success");
@@ -133,6 +124,7 @@ void j1Map::DrawBFS()
 	// Draw frontier
 	for (uint i = 0; i < frontier.Count(); ++i)
 	{
+		Node *= frontier.Peek(i)
 		point = (frontier.Peek(i)->value);
 		TileSet* tileset = GetTilesetFromTileId(25);
 
