@@ -34,12 +34,11 @@ void j1Map::ResetBFS()
 	path.clear();
 
 	Node startNode;
-	startNode.value = iPoint(19, 4);
+	startNode.point = iPoint(19, 4);
 	startNode.prevNode = nullptr;
 	p2List_item<Node> * startNodePtr = path.add(startNode);
 	frontier.Push(&startNodePtr->data);
-	visited.add(startNode.value);
-
+	visited.add(startNode.point);
 
 	targetNode = iPoint(13, 18);
 }
@@ -58,22 +57,22 @@ void j1Map::PropagateBFS()
 	if (frontier.Count() != 0) {
 		frontier.Pop(currNode);
 
-		neighbourNode[(uint)dir::north].value = iPoint(currNode->value.x, currNode->value.y + 1);
-		neighbourNode[(uint)dir::south].value = iPoint(currNode->value.x, currNode->value.y - 1);
-		neighbourNode[(uint)dir::east].value  = iPoint(currNode->value.x + 1, currNode->value.y);
-		neighbourNode[(uint)dir::west].value  = iPoint(currNode->value.x - 1, currNode->value.y);
+		neighbourNode[(uint)dir::north].point = iPoint(currNode->point.x, currNode->point.y + 1);
+		neighbourNode[(uint)dir::south].point = iPoint(currNode->point.x, currNode->point.y - 1);
+		neighbourNode[(uint)dir::east].point  = iPoint(currNode->point.x + 1, currNode->point.y);
+		neighbourNode[(uint)dir::west].point  = iPoint(currNode->point.x - 1, currNode->point.y);
 
 		// TODO 2: For each neighbor, if not visited, add it
 		// to the frontier queue and visited list
 		for (uint i = 0; i < (uint)dir::max; ++i) {
-			if (visited.find(neighbourNode[i].value) == -1 && IsWalkable(neighbourNode[i].value.x, neighbourNode[i].value.y)) {
+			if (visited.find(neighbourNode[i].point) == -1 && IsWalkable(neighbourNode[i].point.x, neighbourNode[i].point.y)) {
 				Node node;
-				node.value = neighbourNode[i].value;
+				node.point = neighbourNode[i].point;
 				node.prevNode = currNode;
 				p2List_item<Node> * nodePtr = path.add(node);
-				frontier.Push(&neighbourNode[i]);
-				visited.add(neighbourNode[i].value);
-				if (neighbourNode[i].value == targetNode) {
+				frontier.Push(&nodePtr->data);
+				visited.add(neighbourNode[i].point);
+				if (neighbourNode[i].point == targetNode) {
 					//Return the path and stop the pathfinding algorithm with a result of success
 					LOG("Finished pathfinding with a result of success");
 					foundPath = true;
@@ -87,7 +86,7 @@ void j1Map::PropagateBFS()
 void j1Map::DrawPath() {
 	Node* iterator = &path.end->data;
 	while (iterator != nullptr) {
-		iPoint point = iterator->value;
+		iPoint point = iterator->point;
 		TileSet* tileset = GetTilesetFromTileId(25);
 
 		SDL_Rect r = tileset->GetTileRect(25);
@@ -124,8 +123,8 @@ void j1Map::DrawBFS()
 	// Draw frontier
 	for (uint i = 0; i < frontier.Count(); ++i)
 	{
-		Node *= frontier.Peek(i)
-		point = (frontier.Peek(i)->value);
+		Node* node = *frontier.Peek(i);
+		point = node->point;
 		TileSet* tileset = GetTilesetFromTileId(25);
 
 		SDL_Rect r = tileset->GetTileRect(25);
