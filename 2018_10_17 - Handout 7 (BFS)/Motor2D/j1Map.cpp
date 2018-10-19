@@ -89,9 +89,9 @@ void j1Map::DrawPath() {
 	Node* iterator = &path.end->data;
 	while (iterator != nullptr) {
 		iPoint point = iterator->point;
-		TileSet* tileset = GetTilesetFromTileId(25);
+		TileSet* tileset = GetTilesetFromTileId(27);
 
-		SDL_Rect r = tileset->GetTileRect(25);
+		SDL_Rect r = tileset->GetTileRect(27);
 		iPoint pos = MapToWorld(point.x, point.y);
 
 		App->render->Blit(tileset->texture, pos.x, pos.y, &r);
