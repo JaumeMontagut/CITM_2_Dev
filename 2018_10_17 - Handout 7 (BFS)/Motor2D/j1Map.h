@@ -19,7 +19,7 @@ enum class dir : unsigned int {
 
 struct Node {
 	iPoint value;
-	iPoint prevNode;
+	Node * prevNode;
 	//To be a more complete "tree-like" structure it could also have a list of pointer to the childs, not just to the parent
 };
 
@@ -143,6 +143,7 @@ public:
 	void DrawBFS();
 	bool IsWalkable(int x, int y) const;
 	void ResetBFS();
+	void DrawPath();
 
 private:
 
@@ -165,10 +166,11 @@ private:
 	bool				map_loaded;
 
 	/// BFS
-	p2Queue<iPoint>		frontier;
+	p2Queue<Node>		frontier;
 	p2List<iPoint>		visited;
 	p2List<Node>		path;
-	iPoint targetNode;
+	iPoint				targetNode;
+	bool				foundPath = false;
 };
 
 #endif // __j1MAP_H__
