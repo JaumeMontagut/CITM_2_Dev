@@ -1,23 +1,23 @@
 // ----------------------------------------------------
-// FIFO implementation with single linked list  -------
+// Prority FIFO implementation with single linked list  -------
 // ----------------------------------------------------
 
-#ifndef __p2Queue_H__
-#define __p2Queue_H__
+#ifndef __p2PQueue_H__
+#define __p2PQueue_H__
 
 #include "p2Defs.h"
-//#include "p2Assert.h"
 
 /**
 * Contains items from double linked list
 */
 template<class tdata>
-struct p2Queue_item
+struct p2PQueue_item
 {
-	tdata                 data;
-	p2Queue_item<tdata>*   next;
+	tdata					data;
+	int						priority;
+	p2PQueue_item<tdata>*   next = nullptr;
 
-	inline p2Queue_item(const tdata& _data) : data(_data), next(NULL)
+	p2PQueue_item(const tdata& _data, int priority) : data(_data), priority(priority)
 	{}
 };
 
@@ -25,25 +25,25 @@ struct p2Queue_item
 * Manages a double linked list
 */
 template<class tdata>
-class p2Queue
+class p2PQueue
 {
 
 public:
 
-	p2Queue_item<tdata>*   start;
+	p2PQueue_item<tdata>*   start;
 
 public:
 
 	/**
 	* Constructor
 	*/
-	inline p2Queue() : start(NULL)
+	inline p2PQueue() : start(NULL)
 	{}
 
 	/**
 	* Destructor
 	*/
-	~p2Queue()
+	~p2PQueue()
 	{
 		Clear();
 	}
@@ -54,7 +54,7 @@ public:
 	unsigned int Count() const
 	{
 		unsigned int result = 0;
-		p2Queue_item<tdata>* tmp;
+		p2PQueue_item<tdata>* tmp;
 
 		for (tmp = start; tmp != NULL; tmp = tmp->next)
 			++result;
@@ -65,9 +65,9 @@ public:
 	/**
 	* Get last item
 	*/
-	p2Queue_item<tdata>* GetLast()
+	p2PQueue_item<tdata>* GetLast()
 	{
-		p2Queue_item<tdata>* tmp = start;
+		p2PQueue_item<tdata>* tmp = start;
 
 		while (tmp != NULL && tmp->next != NULL)
 			tmp = tmp->next;
@@ -78,12 +78,12 @@ public:
 	/**
 	* push new item
 	*/
-	void Push(const tdata& item)
+	void Push(const tdata& item, int priority)
 	{
-		p2Queue_item<tdata>*   p_data_item;
-		p_data_item = new p2Queue_item < tdata >(item);
+		p2PQueue_item<tdata>*   p_data_item;
+		p_data_item = new p2PQueue_item < tdata >(item, priority);
 
-		p2Queue_item<tdata>* last = GetLast();
+		p2PQueue_item<tdata>* last = GetLast();
 
 		if (last == NULL)
 		{
@@ -91,7 +91,20 @@ public:
 		}
 		else
 		{
-			last->next = p_data_item;
+			p2PQueue_item<tdata>* prev = start;
+			p2PQueue_item<tdata>* tmp = start;
+
+			while (tmp && tmp->priority <= priority)
+			{
+				prev = tmp;
+				tmp = tmp->next;
+			}
+
+			p_data_item->next = tmp;
+			if (tmp == start)
+				start = p_data_item;
+			else
+				prev->next = p_data_item;
 		}
 	}
 
@@ -104,7 +117,7 @@ public:
 
 		if (start != nullptr)
 		{
-			p2Queue_item<tdata>* new_start = start->next;
+			p2PQueue_item<tdata>* new_start = start->next;
 			item = start->data;
 			RELEASE(start);
 			start = new_start;
@@ -120,7 +133,7 @@ public:
 	const tdata* Peek(unsigned int index) const
 	{
 		unsigned int i = 0;
-		p2Queue_item<tdata>* tmp;
+		p2PQueue_item<tdata>* tmp;
 
 		for (tmp = start; tmp != NULL && i < index; tmp = tmp->next)
 			++i;
@@ -131,17 +144,13 @@ public:
 		return NULL;
 	}
 
-	bool empty() {
-		return (start == NULL);
-	}
-
 	/**
 	* Destroy and free all mem
 	*/
 	void Clear()
 	{
-		p2Queue_item<tdata>*   p_data;
-		p2Queue_item<tdata>*   p_next;
+		p2PQueue_item<tdata>*   p_data;
+		p2PQueue_item<tdata>*   p_next;
 		p_data = start;
 
 		while (p_data != NULL)
@@ -155,4 +164,5 @@ public:
 	}
 
 };
-#endif /*__p2Queue_H__*/	
+#endif /*__p2PQueue_H__*/	
+

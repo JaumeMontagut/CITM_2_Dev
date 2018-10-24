@@ -54,7 +54,7 @@ public:
 	unsigned int Count() const
 	{
 		unsigned int result = 0;
-		p2Queue_item<tdata>* tmp;
+		pPQueue_item<tdata>* tmp;
 
 		for (tmp = start; tmp != NULL; tmp = tmp->next)
 			++result;
@@ -129,10 +129,6 @@ public:
 			return &(tmp->data);
 
 		return NULL;
-	}
-
-	bool empty() {
-		return (start == NULL);
 	}
 
 	/**
