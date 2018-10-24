@@ -48,18 +48,17 @@ void j1Map::Path(int x, int y)
 {
 	path.Clear();
 	iPoint goal = WorldToMap(x, y);
-	p2List_item<iPoint> * node = breadcrumbs.end;
 
-	while (int i = ) {
-
-	}
-	path[];
-
-	while (node != NULL) {
-
-	}
 	// TODO 2: Follow the breadcrumps to goal back to the origin
 	// add each step into "path" dyn array (it will then draw automatically)
+	int pos;
+	iPoint node;
+
+	do {
+		pos = visited.find(goal);
+		node = breadcrumbs[pos];
+		path.PushBack(visited[pos]);
+	} while (visited[pos] != node);
 }
 
 void j1Map::PropagateDijkstra()
