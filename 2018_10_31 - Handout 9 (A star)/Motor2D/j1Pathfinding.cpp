@@ -185,17 +185,18 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 	PathNode originNode(0, CalculateDistance(origin, destination), origin, nullptr);
 	openList.list.add(originNode);
 
+	PathNode * currNode;
 	while (openList.list.count() > 0) {
 		// TODO 3: Move the lowest score cell from open list to the closed list
-		PathNode currNode = closedList.list.add(openList.GetNodeLowestScore()->data)->data;
+		currNode = new PathNode(closedList.list.add(openList.GetNodeLowestScore()->data)->data);
 		openList.list.del(openList.GetNodeLowestScore());
 
 		// TODO 4: If we just added the destination, we are done!
 		// Backtrack to create the final path
 		// Use the Pathnode::parent and Flip() the path when you are finish
-		if (closedList.list.end->data.pos == destination) {
+		if (currNode->pos == destination) {
 			last_path.Clear();
-			PathNode * pathIterator = &currNode;
+			PathNode * pathIterator = currNode;
 			while (pathIterator->pos != origin) {
 				last_path.PushBack(pathIterator->pos);
 				pathIterator = pathIterator->parent;
@@ -207,7 +208,7 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 
 		// TODO 5: Fill a list of all adjancent nodes
 		PathList adjacentNodes;
-		currNode.FindWalkableAdjacents(adjacentNodes);
+		currNode->FindWalkableAdjacents(adjacentNodes);
 
 		// TODO 6: Iterate adjancent nodes:
 		// ignore nodes in the closed list
@@ -221,12 +222,12 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 				duplicateNode = (p2List_item<PathNode>*)closedList.Find(adjacentNodeIterator->data.pos);
 				if (duplicateNode == NULL) {
 					adjacentNodeIterator->data.CalculateF(destination);
-					adjacentNodeIterator->data.parent = &currNode;
+					adjacentNodeIterator->data.parent = currNode;
 					openList.list.add(adjacentNodeIterator->data);
 				}
 				else if (adjacentNodeIterator->data.g < duplicateNode->data.g) {
 					duplicateNode->data.g = adjacentNodeIterator->data.g;
-					duplicateNode->data.parent = &currNode;
+					duplicateNode->data.parent = currNode;
 				}
 				adjacentNodeIterator = adjacentNodeIterator->next;
 			}
