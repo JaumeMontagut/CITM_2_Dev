@@ -196,6 +196,7 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 		// Backtrack to create the final path
 		// Use the Pathnode::parent and Flip() the path when you are finish
 		if (closedList.list.end->data.pos == destination) {
+			last_path.Clear();
 			p2List_item<PathNode>* pathIterator = closedList.list.start;
 			while (pathIterator != nullptr) {
 				last_path.PushBack(pathIterator->data.pos);
@@ -217,17 +218,19 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 		// If it is a better path, Update the parent
 		p2List_item<PathNode>* adjacentNodeIterator = adjacentNodes.list.start;
 		while (adjacentNodeIterator != nullptr) {
-			p2List_item<PathNode>* duplicateNode = NULL;
-			duplicateNode = (p2List_item<PathNode>*)closedList.Find(adjacentNodeIterator->data.pos);
-			if (duplicateNode == NULL) {
-				uint adjacentNodeF = adjacentNodeIterator->data.CalculateF(destination);
-				openList.list.add(adjacentNodeIterator->data);
+			if (IsWalkable(adjacentNodeIterator->data.pos)) {
+				p2List_item<PathNode>* duplicateNode = NULL;
+				duplicateNode = (p2List_item<PathNode>*)closedList.Find(adjacentNodeIterator->data.pos);
+				if (duplicateNode == NULL) {
+					uint adjacentNodeF = adjacentNodeIterator->data.CalculateF(destination);
+					openList.list.add(adjacentNodeIterator->data);
+				}
+				else if (adjacentNodeIterator->data.g < duplicateNode->data.g) {
+					duplicateNode->data.g = adjacentNodeIterator->data.g;
+					duplicateNode->data.parent = &currNode;
+				}
+				adjacentNodeIterator = adjacentNodeIterator->next;
 			}
-			else if (adjacentNodeIterator->data.g < duplicateNode->data.g) {
-				duplicateNode->data.g = adjacentNodeIterator->data.g;
-				duplicateNode->data.parent = &currNode;
-			}
-			adjacentNodeIterator = adjacentNodeIterator->next;
 		}
 	}
 
