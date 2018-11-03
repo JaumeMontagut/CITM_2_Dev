@@ -23,7 +23,7 @@ struct PathNode
 {
 	// Convenient constructors
 	PathNode();
-	PathNode(int g, int h, const iPoint& pos, const PathNode* parent);
+	PathNode(int g, int h, const iPoint& pos, PathNode* parent);
 	PathNode(const PathNode& node);
 
 	// Fills a list (PathList) of all valid adjacent pathnodes
@@ -37,7 +37,7 @@ struct PathNode
 	int g;
 	int h;
 	iPoint pos;
-	const PathNode* parent; // needed to reconstruct the path in the end
+	PathNode* parent; // needed to reconstruct the path in the end
 };
 
 // ---------------------------------------------------------------------

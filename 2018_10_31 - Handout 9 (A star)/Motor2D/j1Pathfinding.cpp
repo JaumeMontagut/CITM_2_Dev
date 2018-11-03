@@ -113,7 +113,7 @@ p2List_item<PathNode>* PathList::GetNodeLowestScore() const
 PathNode::PathNode() : g(-1), h(-1), pos(-1, -1), parent(NULL)
 {}
 
-PathNode::PathNode(int g, int h, const iPoint& pos, const PathNode* parent) : g(g), h(h), pos(pos), parent(parent)
+PathNode::PathNode(int g, int h, const iPoint& pos, PathNode* parent) : g(g), h(h), pos(pos), parent(parent)
 {}
 
 PathNode::PathNode(const PathNode& node) : g(node.g), h(node.h), pos(node.pos), parent(node.parent)
@@ -130,22 +130,22 @@ uint PathNode::FindWalkableAdjacents(PathList& list_to_fill) const
 	// north
 	cell.create(pos.x, pos.y + 1);
 	if(App->pathfinding->IsWalkable(cell))
-		list_to_fill.list.add(PathNode(-1, -1, cell, this));
+		list_to_fill.list.add(PathNode(-1, -1, cell, (PathNode*)this));
 
 	// south
 	cell.create(pos.x, pos.y - 1);
 	if(App->pathfinding->IsWalkable(cell))
-		list_to_fill.list.add(PathNode(-1, -1, cell, this));
+		list_to_fill.list.add(PathNode(-1, -1, cell, (PathNode*)this));
 
 	// east
 	cell.create(pos.x + 1, pos.y);
 	if(App->pathfinding->IsWalkable(cell))
-		list_to_fill.list.add(PathNode(-1, -1, cell, this));
+		list_to_fill.list.add(PathNode(-1, -1, cell, (PathNode*)this));
 
 	// west
 	cell.create(pos.x - 1, pos.y);
 	if(App->pathfinding->IsWalkable(cell))
-		list_to_fill.list.add(PathNode(-1, -1, cell, this));
+		list_to_fill.list.add(PathNode(-1, -1, cell, (PathNode*)this));
 
 	return list_to_fill.list.count();
 }
@@ -198,10 +198,11 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 			PathNode * pathIterator = &currNode;
 			while (pathIterator->pos != origin) {
 				last_path.PushBack(pathIterator->pos);
-				pathIterator = (PathNode*)pathIterator->parent;
+				pathIterator = pathIterator->parent;
 			}
 			last_path.Flip();
-			break;
+			LOG("Succesful path: The algorithm has found a path from the origin(%i, %i) to the destination(%i, %i)", origin.x, origin.y, destination.x, destination.y);
+			return closedList.list.count();
 		}
 
 		// TODO 5: Fill a list of all adjancent nodes
@@ -232,6 +233,7 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 		}
 	}
 
-	return closedList.list.count();
+	LOG("Invalid path: The algorithm has extended to all the possible nodes and hasn't found a path to the destination.");
+	return -1;
 }
 
