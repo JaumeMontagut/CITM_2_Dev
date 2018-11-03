@@ -186,22 +186,19 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 	openList.list.add(originNode);
 
 	while (openList.list.count() > 0) {
-		PathNode currNode = openList.GetNodeLowestScore()->data;
-
 		// TODO 3: Move the lowest score cell from open list to the closed list
+		PathNode currNode = closedList.list.add(openList.GetNodeLowestScore()->data)->data;
 		openList.list.del(openList.GetNodeLowestScore());
-		closedList.list.add(currNode);
 
 		// TODO 4: If we just added the destination, we are done!
 		// Backtrack to create the final path
 		// Use the Pathnode::parent and Flip() the path when you are finish
 		if (closedList.list.end->data.pos == destination) {
 			last_path.Clear();
-			p2List_item<PathNode>* pathIterator = closedList.list.start;
-			while (pathIterator != nullptr) {
-				last_path.PushBack(pathIterator->data.pos);
-				pathIterator = pathIterator->next;
-				//TODO: Optimization, instead of flipping, we could simply make this for start at the end and go backwards
+			PathNode * pathIterator = &currNode;
+			while (pathIterator->pos != origin) {
+				last_path.PushBack(pathIterator->pos);
+				pathIterator = (PathNode*)pathIterator->parent;
 			}
 			last_path.Flip();
 			break;
