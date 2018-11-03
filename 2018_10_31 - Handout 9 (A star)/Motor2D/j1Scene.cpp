@@ -52,7 +52,7 @@ bool j1Scene::PreUpdate()
 
 	// debug pathfing ------------------
 	static iPoint origin;
-	static bool origin_selected = false;
+	static bool origin_selected;
 
 	int x, y;
 	App->input->GetMousePosition(x, y);
