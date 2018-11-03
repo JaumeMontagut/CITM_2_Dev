@@ -182,6 +182,8 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 	// TODO 2: Create two lists: open, close
 	// Add the origin tile to open
 	// Iterate while we have tile in the open list
+	PathList openList;
+	PathList closedList;
 	PathNode originNode(0, CalculateDistance(origin, destination), origin, nullptr);
 	openList.list.add(originNode);
 

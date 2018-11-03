@@ -10,6 +10,13 @@ Solved
 	In x64 ints take up twice the space so it prints some garbage values before.
 	The correct way to do it would be to use a casting operator.
 
+- Why in update you pass a float parameter called dt?
+	Delta time
+
+- Why is there a typedef uchar for unsigned char?
+	Char goes from -123 to 122 (don't remember exactly)
+	Unsigned Char goes from 0 to 254
+
 - I want:
 1. Create a function in only one place (if i have to make changes i only want to change one)
 2. Avoid the time of calling a function (as if it was coded in all the places)
@@ -27,12 +34,10 @@ Research
 
 Questions
 
-- Why is there a typedef uchar for unsigned char?
-
 - Why do we check for '\0' but in debbuging that does not appear as the last character of the string?
 
-- Why in update you pass a float parameter called dt?
-
 - What does j1 mean?
+
+-  (Handout8 > j1Scene.cpp > 55) Why is this bool not being set to false every frame?
 
 
