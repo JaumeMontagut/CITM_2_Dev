@@ -214,12 +214,13 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 		// If it is already in the open list, check if it is a better path (compare G)
 		// If it is a better path, Update the parent
 		p2List_item<PathNode>* adjacentNodeIterator = adjacentNodes.list.start;
+		p2List_item<PathNode>* duplicateNode;
 		while (adjacentNodeIterator != nullptr) {
 			if (IsWalkable(adjacentNodeIterator->data.pos)) {
-				p2List_item<PathNode>* duplicateNode = NULL;
 				duplicateNode = (p2List_item<PathNode>*)closedList.Find(adjacentNodeIterator->data.pos);
 				if (duplicateNode == NULL) {
-					uint adjacentNodeF = adjacentNodeIterator->data.CalculateF(destination);
+					adjacentNodeIterator->data.CalculateF(destination);
+					adjacentNodeIterator->data.parent = &currNode;
 					openList.list.add(adjacentNodeIterator->data);
 				}
 				else if (adjacentNodeIterator->data.g < duplicateNode->data.g) {
