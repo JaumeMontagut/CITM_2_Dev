@@ -197,7 +197,7 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 		if (currNode->pos == destination) {
 			last_path.Clear();
 			PathNode * pathIterator = currNode;
-			while (pathIterator->pos != origin) {
+			while (pathIterator != nullptr && pathIterator->pos != origin) {
 				last_path.PushBack(pathIterator->pos);
 				pathIterator = pathIterator->parent;
 			}
