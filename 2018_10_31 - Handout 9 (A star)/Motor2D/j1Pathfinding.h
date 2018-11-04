@@ -7,6 +7,7 @@
 
 #define DEFAULT_PATH_LENGTH 50
 #define INVALID_WALK_CODE 255
+#define COST_TO_MOVE 1
 
 // --------------------------------------------------
 // Recommended reading:
@@ -26,8 +27,6 @@ struct PathNode
 	PathNode(int g, int h, const iPoint& pos, PathNode* parent);
 	PathNode(const PathNode& node);
 
-	// Fills a list (PathList) of all valid adjacent pathnodes
-	uint FindWalkableAdjacents(PathList& list_to_fill) const;
 	// Calculates this tile score
 	int GetF() const;
 	// Calculate the F for a specific destination tile

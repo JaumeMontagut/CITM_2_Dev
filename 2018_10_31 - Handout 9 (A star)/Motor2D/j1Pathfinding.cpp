@@ -119,37 +119,6 @@ PathNode::PathNode(const PathNode& node) : g(node.g), h(node.h), pos(node.pos), 
 {}
 
 // PathNode -------------------------------------------------------------------------
-// Fills a list (PathList) of all valid adjacent pathnodes
-// ----------------------------------------------------------------------------------
-uint PathNode::FindWalkableAdjacents(PathList& list_to_fill) const
-{
-	iPoint cell;
-	uint before = list_to_fill.list.count();
-
-	// north
-	cell.create(pos.x, pos.y + 1);
-	if(App->pathfinding->IsWalkable(cell))
-		list_to_fill.list.add(PathNode(-1, -1, cell, (PathNode*)this));
-
-	// south
-	cell.create(pos.x, pos.y - 1);
-	if(App->pathfinding->IsWalkable(cell))
-		list_to_fill.list.add(PathNode(-1, -1, cell, (PathNode*)this));
-
-	// east
-	cell.create(pos.x + 1, pos.y);
-	if(App->pathfinding->IsWalkable(cell))
-		list_to_fill.list.add(PathNode(-1, -1, cell, (PathNode*)this));
-
-	// west
-	cell.create(pos.x - 1, pos.y);
-	if(App->pathfinding->IsWalkable(cell))
-		list_to_fill.list.add(PathNode(-1, -1, cell, (PathNode*)this));
-
-	return list_to_fill.list.count();
-}
-
-// PathNode -------------------------------------------------------------------------
 // Calculates this tile score
 // ----------------------------------------------------------------------------------
 int PathNode::GetF() const
@@ -162,7 +131,7 @@ int PathNode::GetF() const
 // ----------------------------------------------------------------------------------
 void PathNode::SetGandH(const iPoint& destination)
 {
-	g = parent->g + 1;
+	g = parent->g + COST_TO_MOVE;
 	h = pos.DistanceTo(destination);
 }
 
@@ -209,7 +178,26 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 
 		// TODO 5: Fill a list of all adjancent nodes
 		PathList adjacentNodes;
-		currNode->FindWalkableAdjacents(adjacentNodes);
+		iPoint cell;
+		// north
+		cell.create(currNode->pos.x, currNode->pos.y + 1);
+		if (App->pathfinding->IsWalkable(cell))
+			adjacentNodes.list.add(PathNode(currNode->g + COST_TO_MOVE, cell.DistanceTo(destination), cell, currNode));
+
+		// east
+		cell.create(currNode->pos.x + 1, currNode->pos.y);
+		if (App->pathfinding->IsWalkable(cell))
+			adjacentNodes.list.add(PathNode(currNode->g + COST_TO_MOVE, cell.DistanceTo(destination), cell, currNode));
+
+		// south
+		cell.create(currNode->pos.x, currNode->pos.y - 1);
+		if (App->pathfinding->IsWalkable(cell))
+			adjacentNodes.list.add(PathNode(currNode->g + COST_TO_MOVE, cell.DistanceTo(destination), cell, currNode));
+
+		// west
+		cell.create(currNode->pos.x - 1, currNode->pos.y);
+		if (App->pathfinding->IsWalkable(cell))
+			adjacentNodes.list.add(PathNode(currNode->g + COST_TO_MOVE, cell.DistanceTo(destination), cell, currNode));
 
 		// TODO 6: Iterate adjancent nodes:
 		// ignore nodes in the closed list
@@ -220,10 +208,10 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 			if (closedList.Find(adjacentNodeIterator->data.pos) != NULL) {
 				continue;
 			}
-			adjacentNodeIterator->data.SetGandH(destination);
 			p2List_item<PathNode>* duplicateNode = (p2List_item<PathNode>*)openList.Find(adjacentNodeIterator->data.pos);
 			if (duplicateNode == NULL) {
 				adjacentNodeIterator->data.parent = currNode;
+
 				adjacentNodeIterator->data.SetGandH(destination);
 				openList.list.add(adjacentNodeIterator->data);
 			}
