@@ -29,9 +29,9 @@ struct PathNode
 	// Fills a list (PathList) of all valid adjacent pathnodes
 	uint FindWalkableAdjacents(PathList& list_to_fill) const;
 	// Calculates this tile score
-	int Score() const;
+	int GetF() const;
 	// Calculate the F for a specific destination tile
-	int CalculateF(const iPoint& destination);
+	void SetGandH(const iPoint& destination);
 
 	// -----------
 	int g;
@@ -86,8 +86,6 @@ public:
 	// Utility: return the walkability value of a tile
 	uchar GetTileAt(const iPoint& pos) const;
 
-	inline float CalculateDistance(iPoint origin, iPoint destination);
-
 	void ClearLists();
 
 private:
@@ -104,8 +102,5 @@ private:
 	PathList openList;
 	PathList closedList;
 };
-
-// forward declaration
-struct PathList;
 
 #endif // __j1PATHFINDING_H__

@@ -96,9 +96,9 @@ p2List_item<PathNode>* PathList::GetNodeLowestScore() const
 	p2List_item<PathNode>* item = list.end;
 	while(item)
 	{
-		if(item->data.Score() < min)
+		if(item->data.GetF() < min)
 		{
-			min = item->data.Score();
+			min = item->data.GetF();
 			ret = item;
 		}
 		item = item->prev;
@@ -152,7 +152,7 @@ uint PathNode::FindWalkableAdjacents(PathList& list_to_fill) const
 // PathNode -------------------------------------------------------------------------
 // Calculates this tile score
 // ----------------------------------------------------------------------------------
-int PathNode::Score() const
+int PathNode::GetF() const
 {
 	return g + h;
 }
@@ -160,12 +160,10 @@ int PathNode::Score() const
 // PathNode -------------------------------------------------------------------------
 // Calculate the F for a specific destination tile
 // ----------------------------------------------------------------------------------
-int PathNode::CalculateF(const iPoint& destination)
+void PathNode::SetGandH(const iPoint& destination)
 {
 	g = parent->g + 1;
 	h = pos.DistanceTo(destination);
-
-	return g + h;
 }
 
 // ----------------------------------------------------------------------------------
@@ -222,11 +220,11 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 			if (closedList.Find(adjacentNodeIterator->data.pos) != NULL) {
 				continue;
 			}
-			adjacentNodeIterator->data.CalculateF(destination);
+			adjacentNodeIterator->data.SetGandH(destination);
 			p2List_item<PathNode>* duplicateNode = (p2List_item<PathNode>*)openList.Find(adjacentNodeIterator->data.pos);
 			if (duplicateNode == NULL) {
 				adjacentNodeIterator->data.parent = currNode;
-				adjacentNodeIterator->data.CalculateF(destination);
+				adjacentNodeIterator->data.SetGandH(destination);
 				openList.list.add(adjacentNodeIterator->data);
 			}
 			else if (adjacentNodeIterator->data.g < duplicateNode->data.g) {
