@@ -182,6 +182,7 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 {
 	// TODO 1: if origin or destination are not walkable, return -1
 	if (!IsWalkable(origin) || !IsWalkable(destination)) {
+		LOG("Invalid path: Origin or destination are not walkable.");
 		return -1;
 	}
 
@@ -191,11 +192,13 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 	PathNode originNode(0, CalculateDistance(origin, destination), origin, nullptr);
 	openList.list.add(originNode);
 
-	PathNode * currNode;
+
 	while (openList.list.count() > 0) {
 		// TODO 3: Move the lowest score cell from open list to the closed list
-		currNode = new PathNode(closedList.list.add(openList.GetNodeLowestScore()->data)->data);
-		openList.list.del(openList.GetNodeLowestScore());
+		p2List_item<PathNode> * lowestNode = openList.GetNodeLowestScore();
+
+		PathNode * currNode = &closedList.list.add(lowestNode->data)->data;
+		openList.list.del(lowestNode);
 
 		// TODO 4: If we just added the destination, we are done!
 		// Backtrack to create the final path
