@@ -58,13 +58,6 @@ uchar j1PathFinding::GetTileAt(const iPoint& pos) const
 	return INVALID_WALK_CODE;
 }
 
-float j1PathFinding::CalculateDistance(iPoint origin, iPoint destination)
-{
-	float x = destination.x - origin.x;
-	float y = destination.y - origin.y;
-	return sqrtf(x*x + y*y);
-}
-
 void j1PathFinding::ClearLists()
 {
 	openList.list.clear();
@@ -189,7 +182,7 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 	// TODO 2: Create two lists: open, close
 	// Add the origin tile to open
 	// Iterate while we have tile in the open list
-	PathNode originNode(0, CalculateDistance(origin, destination), origin, nullptr);
+	PathNode originNode(0, origin.DistanceTo(destination), origin, nullptr);
 	openList.list.add(originNode);
 
 
@@ -229,6 +222,7 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 			if (closedList.Find(adjacentNodeIterator->data.pos) != NULL) {
 				continue;
 			}
+			adjacentNodeIterator->data.CalculateF(destination);
 			p2List_item<PathNode>* duplicateNode = (p2List_item<PathNode>*)openList.Find(adjacentNodeIterator->data.pos);
 			if (duplicateNode == NULL) {
 				adjacentNodeIterator->data.parent = currNode;
@@ -236,8 +230,8 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 				openList.list.add(adjacentNodeIterator->data);
 			}
 			else if (adjacentNodeIterator->data.g < duplicateNode->data.g) {
+				duplicateNode->data.g = adjacentNodeIterator->data.g + currNode->g;
 				duplicateNode->data.parent = currNode;
-				duplicateNode->data.g = adjacentNodeIterator->data.g;
 			}
 		}
 	}
