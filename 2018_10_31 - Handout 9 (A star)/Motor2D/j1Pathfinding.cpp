@@ -210,9 +210,6 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 			}
 			p2List_item<PathNode>* duplicateNode = (p2List_item<PathNode>*)openList.Find(adjacentNodeIterator->data.pos);
 			if (duplicateNode == NULL) {
-				adjacentNodeIterator->data.parent = currNode;
-
-				adjacentNodeIterator->data.SetGandH(destination);
 				openList.list.add(adjacentNodeIterator->data);
 			}
 			else if (adjacentNodeIterator->data.g < duplicateNode->data.g) {
