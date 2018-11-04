@@ -222,10 +222,11 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 		// If it is NOT found, calculate its F and add it to the open list
 		// If it is already in the open list, check if it is a better path (compare G)
 		// If it is a better path, Update the parent
-		p2List_item<PathNode>* adjacentNodeIterator = adjacentNodes.list.start;
-		p2List_item<PathNode>* duplicateNode;
-		while (adjacentNodeIterator != nullptr) {
-			duplicateNode = (p2List_item<PathNode>*)closedList.Find(adjacentNodeIterator->data.pos);
+		for (p2List_item<PathNode>* adjacentNodeIterator = adjacentNodes.list.start; adjacentNodeIterator != nullptr; adjacentNodeIterator = adjacentNodeIterator->next) {
+			if (closedList.Find(adjacentNodeIterator->data.pos) != NULL) {
+				continue;
+			}
+			p2List_item<PathNode>* duplicateNode = (p2List_item<PathNode>*)openList.Find(adjacentNodeIterator->data.pos);
 			if (duplicateNode == NULL) {
 				adjacentNodeIterator->data.parent = currNode;
 				adjacentNodeIterator->data.CalculateF(destination);
@@ -235,7 +236,6 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 				duplicateNode->data.parent = currNode;
 				duplicateNode->data.g = adjacentNodeIterator->data.g;
 			}
-			adjacentNodeIterator = adjacentNodeIterator->next;
 		}
 	}
 
