@@ -213,7 +213,7 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 				openList.list.add(adjacentNodeIterator->data);
 			}
 			else if (adjacentNodeIterator->data.g < duplicateNode->data.g) {
-				duplicateNode->data.g = adjacentNodeIterator->data.g + currNode->g;
+				duplicateNode->data.g = adjacentNodeIterator->data.g;
 				duplicateNode->data.parent = currNode;
 			}
 		}
