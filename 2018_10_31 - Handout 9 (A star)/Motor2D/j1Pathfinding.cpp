@@ -58,12 +58,6 @@ uchar j1PathFinding::GetTileAt(const iPoint& pos) const
 	return INVALID_WALK_CODE;
 }
 
-void j1PathFinding::ClearLists()
-{
-	openList.list.clear();
-	closedList.list.clear();
-}
-
 // To request all tiles involved in the last generated path
 const p2DynArray<iPoint>* j1PathFinding::GetLastPath() const
 {
@@ -149,9 +143,10 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 	// TODO 2: Create two lists: open, close
 	// Add the origin tile to open
 	// Iterate while we have tile in the open list
+	PathList openList;
+	PathList closedList;
 	PathNode originNode(0, origin.DistanceTo(destination), origin, nullptr);
 	openList.list.add(originNode);
-
 
 	while (openList.list.count() > 0) {
 		// TODO 3: Move the lowest score cell from open list to the closed list
@@ -172,7 +167,6 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 			}
 			last_path.Flip();
 			LOG("Succesful path: The algorithm has found a path from the origin(%i, %i) to the destination(%i, %i)", origin.x, origin.y, destination.x, destination.y);
-			ClearLists();
 			return last_path.GetCapacity();
 		}
 
@@ -220,7 +214,6 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 	}
 
 	LOG("Invalid path: The algorithm has extended to all the possible nodes and hasn't found a path to the destination.");
-	ClearLists();
 	return -1;
 }
 
