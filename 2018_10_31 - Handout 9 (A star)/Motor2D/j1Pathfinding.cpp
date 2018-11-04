@@ -228,13 +228,13 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 			if (IsWalkable(adjacentNodeIterator->data.pos)) {
 				duplicateNode = (p2List_item<PathNode>*)closedList.Find(adjacentNodeIterator->data.pos);
 				if (duplicateNode == NULL) {
-					adjacentNodeIterator->data.CalculateF(destination);
 					adjacentNodeIterator->data.parent = currNode;
+					adjacentNodeIterator->data.CalculateF(destination);
 					openList.list.add(adjacentNodeIterator->data);
 				}
 				else if (adjacentNodeIterator->data.g < duplicateNode->data.g) {
-					duplicateNode->data.g = adjacentNodeIterator->data.g;
 					duplicateNode->data.parent = currNode;
+					duplicateNode->data.g = adjacentNodeIterator->data.g;
 				}
 				adjacentNodeIterator = adjacentNodeIterator->next;
 			}
