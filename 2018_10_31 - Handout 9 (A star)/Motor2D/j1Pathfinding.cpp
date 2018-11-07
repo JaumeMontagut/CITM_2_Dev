@@ -136,7 +136,7 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 {
 	// TODO 1: if origin or destination are not walkable, return -1
 	if (!IsWalkable(origin) || !IsWalkable(destination)) {
-		LOG("Invalid path: Origin or destination are not walkable.");
+		LOG("Invalid origin or destination: Origin or destination are not walkable.");
 		return -1;
 	}
 
