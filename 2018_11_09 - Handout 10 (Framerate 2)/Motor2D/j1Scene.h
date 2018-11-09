@@ -3,6 +3,8 @@
 
 #include "j1Module.h"
 
+#define CAMERA_MOVE_SPEED 100
+
 struct SDL_Texture;
 
 class j1Scene : public j1Module
@@ -24,7 +26,7 @@ public:
 	bool PreUpdate();
 
 	// Called each loop iteration
-	bool Update();
+	bool Update(float dt) override;
 
 	// Called before all Updates
 	bool PostUpdate();

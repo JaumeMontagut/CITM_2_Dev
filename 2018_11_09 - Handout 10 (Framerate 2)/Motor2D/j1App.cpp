@@ -87,7 +87,7 @@ bool j1App::Awake()
 		organization.create(app_config.child("organization").child_value());
 
 		// TODO 1: Read from config file your framerate cap
-		capTime = app_config.attribute("framerate_cap").as_int();
+		capTime = 1000 / app_config.attribute("framerate_cap").as_int();
 	}
 
 	if(ret == true)
@@ -171,7 +171,7 @@ void j1App::PrepareUpdate()
 	last_sec_frame_count++;
 
 	// TODO 4: Calculate the dt: differential time since last frame
-	dt = frame_time.Read();
+	dt = frame_time.Read() / 1000u;
 	frame_time.Start();
 }
 
@@ -254,7 +254,7 @@ bool j1App::DoUpdate()
 		// TODO 5: send dt as an argument to all updates
 		// you will need to update module parent class
 		// and all modules that use update
-		ret = item->data->Update();
+		ret = item->data->Update(dt);
 	}
 
 	return ret;
