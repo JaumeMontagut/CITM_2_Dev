@@ -13,6 +13,8 @@
 #include "j1Map.h"
 #include "j1Pathfinding.h"
 #include "j1App.h"
+#include "j1Timer.h"
+#include "j1PerfTimer.h"
 
 // TODO 3: Measure the amount of ms that takes to execute:
 // App constructor, Awake, Start and CleanUp
@@ -21,6 +23,12 @@
 // Constructor
 j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 {
+	timer = new j1Timer();
+	perfTimer = new j1PerfTimer();
+
+	j1Timer constructTimer;
+	j1PerfTimer perfConstructTimer;
+
 	input = new j1Input();
 	win = new j1Window();
 	render = new j1Render();
@@ -42,6 +50,9 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 
 	// render last to swap buffer
 	AddModule(render);
+
+	LOG("Constructor time: %u", constructTimer.Read());
+	LOG("Constructor perfect time: %f", perfConstructTimer.ReadMs());
 }
 
 // Destructor
@@ -68,6 +79,9 @@ void j1App::AddModule(j1Module* module)
 // Called before render is available
 bool j1App::Awake()
 {
+	j1Timer awakeTimer;
+	j1PerfTimer awakePerfTimer;
+
 	pugi::xml_document	config_file;
 	pugi::xml_node		config;
 	pugi::xml_node		app_config;
@@ -97,12 +111,18 @@ bool j1App::Awake()
 		}
 	}
 
+	LOG("Awake time: %u", awakeTimer.Read());
+	LOG("Awake perfect time: %f", awakePerfTimer.ReadMs());
+
 	return ret;
 }
 
 // Called before the first frame
 bool j1App::Start()
 {
+	j1Timer startTimer;
+	j1PerfTimer startPerfTimer;
+
 	bool ret = true;
 	p2List_item<j1Module*>* item;
 	item = modules.start;
@@ -112,6 +132,10 @@ bool j1App::Start()
 		ret = item->data->Start();
 		item = item->next;
 	}
+
+	LOG("Start time: %u", startTimer.Read());
+	LOG("Start perfect time: %f", startPerfTimer.ReadMs());
+
 	return ret;
 }
 
@@ -168,21 +192,21 @@ void j1App::FinishUpdate()
 
 	// TODO 4: Now calculate:
 	// Amount of frames since startup
+	frame_count++;
 	// Amount of time since game start (use a low resolution timer)
+	float seconds_since_startup = timer->ReadSec();
 	// Average FPS for the whole game life
+	float avg_fps = frame_count / seconds_since_startup;
 	// Amount of ms took the last update
+	uint32 last_frame_ms = lastFrameTime - perfTimer->ReadMs();
+	float dt = (float)last_frame_ms;
+	lastFrameTime = perfTimer->ReadMs();
 	// Amount of frames during the last second
-
-	float avg_fps = 0.0f;
-	float seconds_since_startup = 0.0f;
-	float dt = 0.0f;
-	uint32 last_frame_ms = 0;
-	uint32 frames_on_last_update = 0;
-	uint64 frame_count = 0;
+	uint32 frames_on_last_sec = 0;
 
 	static char title[256];
 	sprintf_s(title, 256, "Av.FPS: %.2f Last Frame Ms: %02u Last sec frames: %i Last dt: %.3f Time since startup: %.3f Frame Count: %lu ",
-			  avg_fps, last_frame_ms, frames_on_last_update, dt, seconds_since_startup, frame_count);
+			  avg_fps, last_frame_ms, frames_on_last_sec, dt, seconds_since_startup, frame_count);
 
 	App->win->SetTitle(title);
 }
@@ -255,6 +279,9 @@ bool j1App::PostUpdate()
 // Called before quitting
 bool j1App::CleanUp()
 {
+	j1Timer cleanUpTimer;
+	j1PerfTimer cleanUpPerfTimer;
+
 	bool ret = true;
 	p2List_item<j1Module*>* item;
 	item = modules.end;
@@ -264,6 +291,10 @@ bool j1App::CleanUp()
 		ret = item->data->CleanUp();
 		item = item->prev;
 	}
+
+	LOG("Clean up time: %u", cleanUpTimer.Read());
+	LOG("Clean up perfect timer: %f", cleanUpPerfTimer.ReadMs());
+
 	return ret;
 }
 
