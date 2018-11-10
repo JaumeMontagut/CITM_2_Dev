@@ -171,7 +171,7 @@ void j1App::PrepareUpdate()
 	last_sec_frame_count++;
 
 	// TODO 4: Calculate the dt: differential time since last frame
-	dt = frame_time.Read() / 1000u;
+	dt = frame_time.ReadSec();
 	frame_time.Start();
 }
 
@@ -206,11 +206,11 @@ void j1App::FinishUpdate()
 
 	// TODO 2: Use SDL_Delay to make sure you get your capped framerate
 	uint32 delay = MAX(0, capTime - last_frame_ms);
-	LOG("Should wait: %i", delay);
+	//LOG("Should wait: %i", delay);
 	j1PerfTimer delayTimer;
 	SDL_Delay(delay);
 	// TODO3: Measure accurately the amount of time it SDL_Delay actually waits compared to what was expected
-	LOG("Has waited:  %f", delayTimer.ReadMs());
+	//LOG("Has waited:  %f", delayTimer.ReadMs());
 }
 
 // Call modules before each loop iteration
