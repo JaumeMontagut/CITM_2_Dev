@@ -87,23 +87,23 @@ bool j1Scene::Update(float dt)
 		App->SaveGame("save_game.xml");
 	}
 
-	LOG("%f", dt);
+	float moveSpeed = (int)(CAMERA_MOVE_SPEED * dt);
 
 	// TODO 6: Make the camera movement independent of framerate
 	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT) {
-		App->render->camera.y += CAMERA_MOVE_SPEED * dt;
+		App->render->camera.y += moveSpeed;
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT) {
-		App->render->camera.y -= CAMERA_MOVE_SPEED * dt;
+		App->render->camera.y -= moveSpeed;
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT) {
-		App->render->camera.x += CAMERA_MOVE_SPEED * dt;
+		App->render->camera.x += moveSpeed;
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT) {
-		App->render->camera.x -= CAMERA_MOVE_SPEED * dt;
+		App->render->camera.x -= moveSpeed;
 	}
 
 	App->map->Draw();
