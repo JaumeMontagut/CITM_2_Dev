@@ -22,7 +22,6 @@ public:
 
 	// Called each loop iteration
 	bool PreUpdate();
-	bool Update();
 	bool PostUpdate();
 
 	// Called before quitting

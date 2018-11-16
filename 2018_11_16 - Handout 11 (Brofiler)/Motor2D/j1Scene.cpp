@@ -9,6 +9,7 @@
 #include "j1Map.h"
 #include "j1PathFinding.h"
 #include "j1Scene.h"
+#include "Brofiler/Brofiler.h"
 
 j1Scene::j1Scene() : j1Module()
 {
@@ -49,7 +50,7 @@ bool j1Scene::Start()
 // Called each loop iteration
 bool j1Scene::PreUpdate()
 {
-
+	BROFILER_CATEGORY("PreUpdate Scene", Profiler::Color::Cyan);
 	// debug pathfing ------------------
 	static iPoint origin;
 	static bool origin_selected = false;
@@ -77,7 +78,7 @@ bool j1Scene::PreUpdate()
 }
 
 // Called each loop iteration
-bool j1Scene::Update()
+bool j1Scene::Update(float dt)
 {
 	if(App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
 		App->LoadGame("save_game.xml");
@@ -86,16 +87,16 @@ bool j1Scene::Update()
 		App->SaveGame("save_game.xml");
 
 	if(App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
-		App->render->camera.y += 1;
+		App->render->camera.y += floor(200.0f * dt);
 
 	if(App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
-		App->render->camera.y -= 1;
+		App->render->camera.y -= floor(200.0f * dt);
 
 	if(App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
-		App->render->camera.x += 1;
+		App->render->camera.x += floor(200.0f * dt);
 
 	if(App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
-		App->render->camera.x -= 1;
+		App->render->camera.x -= floor(200.0f * dt);
 
 	App->map->Draw();
 

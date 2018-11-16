@@ -67,11 +67,6 @@ bool j1Render::PreUpdate()
 	return true;
 }
 
-bool j1Render::Update()
-{
-	return true;
-}
-
 bool j1Render::PostUpdate()
 {
 	SDL_SetRenderDrawColor(renderer, background.r, background.g, background.g, background.a);
