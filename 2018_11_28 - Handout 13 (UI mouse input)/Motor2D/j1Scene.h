@@ -40,4 +40,6 @@ private:
 	GuiText* text;
 };
 
+void SaySomething(p2SString text);
+
 #endif // __j1SCENE_H__

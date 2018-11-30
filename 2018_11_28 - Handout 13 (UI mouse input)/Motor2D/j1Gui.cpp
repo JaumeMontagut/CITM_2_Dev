@@ -43,6 +43,14 @@ bool j1Gui::PreUpdate()
 			uiObjects[i]->PreUpdate();
 		}
 	}
+
+	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN) {
+		for (uint i = 0; i < MAX_UI_OBJ; ++i) {
+			if (uiObjects[i] != nullptr) {
+				uiObjects[i]->clickedFunction(uiObjects[i]->string.GetString());
+			}
+		}
+	}
 	return true;
 }
 
@@ -128,6 +136,7 @@ int j1Gui::FindEmptyPosition() {
 
 UIObject::UIObject(const iPoint & position, int index) : position(position), index(index)
 {
+	string = "hello";
 }
 
 bool UIObject::PreUpdate()
@@ -136,6 +145,11 @@ bool UIObject::PreUpdate()
 }
 
 bool UIObject::PostUpdate()
+{
+	return false;
+}
+
+bool UIObject::OnMouseClick()
 {
 	return false;
 }

@@ -13,8 +13,8 @@ public:
 	int index = -1;//The index of this object in the factory (j1Gui) UIObject list
 	iPoint position;
 	j1MouseState state;//Determines is above the specified object (similar to KeyStates)
-protected:
-
+	p2SString string;
+	void(*clickedFunction)(p2SString);//A pointer to the function that's going to be called when we click the UIObject
 	//Methods
 public:
 	UIObject(const iPoint & position, int index);//TODO: Add function pointer to execute "OnMouseClick"
@@ -26,7 +26,7 @@ public:
 	//virtual bool OnMouseEnter();
 	//virtual bool OnMouseHover();
 	//virtual bool OnMouseExit();
-	//virtual bool OnMouseClick();
+	virtual bool OnMouseClick();
 };
 
 class Image : public UIObject {

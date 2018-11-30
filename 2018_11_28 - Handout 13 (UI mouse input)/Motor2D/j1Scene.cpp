@@ -54,18 +54,17 @@ bool j1Scene::Start()
 	textColor.g = 255;
 	textColor.b = 255;
 	textColor.a = 255;
-	App->gui->CreateText(1.0f, textColor, "hello world", iPoint(width * 0.5f, -10));
+	Text * myText = App->gui->CreateText(1.0f, textColor, "hello world", iPoint(width * 0.5f, -10));
+	myText->clickedFunction = &SaySomething;
 
+	//SDL_Rect imageSection;
+	//imageSection.x = 485;
+	//imageSection.y = 829;
+	//imageSection.w = 328;
+	//imageSection.h = 103;
+	//App->gui->CreateImage((SDL_Texture*)App->gui->GetAtlas(), imageSection, { (int)(width * 0.5f - imageSection.w * 0.5f), 50});
+	//myText->clickedFunction = &SaySomething;
 
-
-	//App->font->Print("hello world", {355, 255, 255, 255}, App->font->default);
-
-	SDL_Rect imageSection;
-	imageSection.x = 485;
-	imageSection.y = 829;
-	imageSection.w = 328;
-	imageSection.h = 103;
-	App->gui->CreateImage((SDL_Texture*)App->gui->GetAtlas(), imageSection, { (int)(width * 0.5f - imageSection.w * 0.5f), 50});
 	return true;
 }
 
@@ -82,7 +81,7 @@ bool j1Scene::PreUpdate()
 	iPoint p = App->render->ScreenToWorld(x, y);
 	p = App->map->WorldToMap(p.x, p.y);
 
-	if(App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)
+	if(App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
 	{
 		if(origin_selected == true)
 		{
@@ -173,4 +172,9 @@ bool j1Scene::CleanUp()
 	LOG("Freeing scene");
 
 	return true;
+}
+
+void SaySomething(p2SString text)
+{
+	LOG("%s", text.GetString());
 }
