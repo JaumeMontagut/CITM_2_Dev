@@ -49,21 +49,34 @@ bool j1Scene::Start()
 	App->win->GetWindowSize(width, height);
 
 	// TODO 3: Create the banner (rect {485, 829, 328, 103}) and the text "Hello World"
-	SDL_Color textColor;
-	textColor.r = 255;
-	textColor.g = 255;
-	textColor.b = 255;
-	textColor.a = 255;
-	Text * myText = App->gui->CreateText(1.0f, textColor, "hello world", iPoint(width * 0.5f, -10));
-	myText->clickedFunction = &SaySomething;
-
-	//SDL_Rect imageSection;
-	//imageSection.x = 485;
-	//imageSection.y = 829;
-	//imageSection.w = 328;
-	//imageSection.h = 103;
-	//App->gui->CreateImage((SDL_Texture*)App->gui->GetAtlas(), imageSection, { (int)(width * 0.5f - imageSection.w * 0.5f), 50});
+	//SDL_Color textColor;
+	//textColor.r = 255;
+	//textColor.g = 255;
+	//textColor.b = 255;
+	//textColor.a = 255;
+	//Text * myText = App->gui->CreateText(1.0f, textColor, "hello world", iPoint(width * 0.5f, -10));
 	//myText->clickedFunction = &SaySomething;
+
+	SDL_Rect idleSection;
+	idleSection.x = 0;
+	idleSection.y = 113;
+	idleSection.w = 229;
+	idleSection.h = 69;
+
+	SDL_Rect hoverSection;
+	hoverSection.x = 411;
+	hoverSection.y = 169;
+	hoverSection.w = 229;
+	hoverSection.h = 69;
+
+	SDL_Rect pressedSection;
+	pressedSection.x = 642;
+	pressedSection.y = 169;
+	pressedSection.w = 229;
+	pressedSection.h = 69;
+
+	Button * myButton = App->gui->CreateButton((SDL_Texture*)App->gui->GetAtlas(), idleSection, hoverSection, pressedSection, { (int)(width * 0.5f - idleSection.w * 0.5f), 50});
+	myButton->clickedFunction = &SaySomething;
 
 	return true;
 }

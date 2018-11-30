@@ -46,6 +46,10 @@ bool j1Gui::PreUpdate()
 
 	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN) {
 		for (uint i = 0; i < MAX_UI_OBJ; ++i) {
+			//App->input->GetMousePosition()
+			//if () {
+
+			//}
 			if (uiObjects[i] != nullptr) {
 				uiObjects[i]->clickedFunction(uiObjects[i]->string.GetString());
 			}
@@ -73,12 +77,12 @@ bool j1Gui::CleanUp()
 	return true;
 }
 
-Image * j1Gui::CreateImage(SDL_Texture * tex, const SDL_Rect & section, const iPoint & position)
+Button * j1Gui::CreateButton(SDL_Texture * tex, const SDL_Rect & idleSection, const SDL_Rect & hoverSection, const SDL_Rect & pressedSection, const iPoint & position)
 {
-	Image* ret = nullptr;
+	Button* ret = nullptr;
 	int index = FindEmptyPosition();
 	if (index != -1) {
-		uiObjects[index] = ret = new Image(tex, section, position, index);
+		uiObjects[index] = ret = new Button(tex, idleSection, hoverSection, pressedSection, position, index);
 	}
 	return ret;
 }
@@ -89,16 +93,6 @@ Text * j1Gui::CreateText(const uint size, const SDL_Color & color, p2SString str
 	int index = FindEmptyPosition();
 	if (index != -1) {
 		uiObjects[index] = ret = new Text(size, color, string, position, index);
-	}
-	return ret;
-}
-
-Button * j1Gui::CreateButton(const iPoint & position)
-{
-	Button* ret = nullptr;
-	int index = FindEmptyPosition();
-	if (index != -1) {
-		uiObjects[index] = ret = new Button(position, index);
 	}
 	return ret;
 }
@@ -154,19 +148,19 @@ bool UIObject::OnMouseClick()
 	return false;
 }
 
-Image::Image(SDL_Texture * tex, const SDL_Rect & rect, const iPoint & position, int index) : tex(tex), section(rect) , UIObject(position, index)
+Button::Button(SDL_Texture * tex, const SDL_Rect & idleSection, const SDL_Rect & hoverSection, const SDL_Rect & pressedSection, const iPoint & position, int index) : tex(tex), idleSection(idleSection), hoverSection(hoverSection), pressedSection(pressedSection) , UIObject(position, index)
 {
-
+	currSection = (SDL_Rect *)&this->idleSection;//TODO: Simply pass SDL_Rect * no const SDL_Rect *
 }
 
-bool Image::PostUpdate()
+bool Button::PostUpdate()
 {
 	SDL_Rect screenRect;
 	screenRect.x = position.x;
 	screenRect.y = position.y;
-	screenRect.w = section.w;
-	screenRect.h = section.h;
-	SDL_RenderCopy(App->render->renderer, tex, &section, &screenRect);//TODO: Create a new function instead of blit for ui (they aren't drawn in the world position, they are drawn directly on top of the screen)
+	screenRect.w = currSection->w;
+	screenRect.h = currSection->h;
+	SDL_RenderCopy(App->render->renderer, tex, currSection, &screenRect);//TODO: Create a new function instead of blit for ui (they aren't drawn in the world position, they are drawn directly on top of the screen)
 	return true;
 }
 
@@ -188,9 +182,5 @@ bool Text::PostUpdate()
 }
 
 CheckBox::CheckBox(const iPoint & position, int index) : UIObject(position, index)
-{
-}
-
-Button::Button(const iPoint & position, int index) : UIObject(position, index)
 {
 }

@@ -29,15 +29,18 @@ public:
 	virtual bool OnMouseClick();
 };
 
-class Image : public UIObject {
+class Button : public UIObject {
 	//Variables
 private:
 	SDL_Texture * tex = nullptr;
-	SDL_Rect section;
+	SDL_Rect * currSection = nullptr;
+	SDL_Rect idleSection;
+	SDL_Rect hoverSection;
+	SDL_Rect pressedSection;
 	//Animation animations[j1MouseState::MAX];
 	//Methods
 public:
-	Image(SDL_Texture * tex, const SDL_Rect & rect, const iPoint & position, int index);
+	Button(SDL_Texture * tex, const SDL_Rect & idleSection, const SDL_Rect & hoverSection, const SDL_Rect & pressedSection, const iPoint & position, int index);
 	virtual bool PostUpdate();
 };
 
@@ -52,12 +55,6 @@ private:
 public:
 	Text(uint size, const SDL_Color & color, p2SString &string, const iPoint & position, int index);//TODO: Add font
 	virtual bool PostUpdate();
-};
-
-class Button : public UIObject {
-	//Methods
-public:
-	Button(const iPoint & position, int index);
 };
 
 class CheckBox : public UIObject {
@@ -101,7 +98,7 @@ public:
 
 	// TODO 2: Create the factory methods
 	// Gui creation functions
-	Image* CreateImage(SDL_Texture * tex, const SDL_Rect & section, const iPoint & position);
+	Button* CreateButton(SDL_Texture * tex, const SDL_Rect & idleSection, const SDL_Rect & hoverSection, const SDL_Rect & pressedSection, const iPoint & position);
 	Text* CreateText(const uint size, const SDL_Color& color, p2SString string, const iPoint & position);//TODO: Add font
 	Button* CreateButton(const iPoint & position);
 	CheckBox* CreateCheckbox(const iPoint & position);
