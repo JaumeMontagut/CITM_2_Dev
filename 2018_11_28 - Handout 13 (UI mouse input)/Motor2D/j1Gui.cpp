@@ -148,6 +148,12 @@ bool UIObject::OnMouseClick()
 	return false;
 }
 
+//iPoint UIObject::GetGlobalPos()
+//{
+//	anchoredElement.GetGlobalPos() + localPos;
+//	return iPoint();
+//}
+
 Button::Button(SDL_Texture * tex, const SDL_Rect & idleSection, const SDL_Rect & hoverSection, const SDL_Rect & pressedSection, const iPoint & position, int index) : tex(tex), idleSection(idleSection), hoverSection(hoverSection), pressedSection(pressedSection) , UIObject(position, index)
 {
 	currSection = (SDL_Rect *)&this->idleSection;//TODO: Simply pass SDL_Rect * no const SDL_Rect *

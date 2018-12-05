@@ -27,6 +27,7 @@ public:
 	//virtual bool OnMouseHover();
 	//virtual bool OnMouseExit();
 	virtual bool OnMouseClick();
+	iPoint GetGlobalPos();
 };
 
 class Button : public UIObject {
